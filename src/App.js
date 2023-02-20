@@ -1,23 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Chart from './chart/CoinChart3';
+import Navbar from './components/Navbar';
+import CoinDetail from './components/CoinDetail';
+import CoinPredict from './components/CoinPredict';
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-black h-screen text-white">
+      <Navbar/>
+      <CoinDetail/>
+      <div className='flex'>
+      <Chart/>
+      <CoinPredict/>
+      </div>
     </div>
   );
 }
