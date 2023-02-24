@@ -4,8 +4,8 @@ import axios from "axios";
 
 const SignUpInput = () => {
   
-  const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
+  const [nickname, setnickname] = useState("");
+  const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -13,15 +13,15 @@ const SignUpInput = () => {
   // 회원가입 API
   const clickSignUp = async () => {
     try {
-        const result = await axios.post("주소", {
-          userName: userName,
-          userId: userId,
+        const result = await axios.post("http://localhost:8080/api/member/signUp", {
+          nickname: nickname,
+          loginId: loginId,
           password: password,
         });
         const token = result.data.token;
         if (token) {
           localStorage.setItem("token", token);
-          alert(userName + "님 반갑습니다");
+          alert(nickname + "님 반갑습니다");
           navigate("/logIn");
         } else {
           alert("회원가입 실패하였습니다");
@@ -43,7 +43,7 @@ const SignUpInput = () => {
           placeholder="이름"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e) => {
-            setUserName(e.target.value);
+            setnickname(e.target.value);
           }}
         />
       </div>
@@ -54,7 +54,7 @@ const SignUpInput = () => {
           autoFocus
           placeholder="아이디 입력하세요"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
-          onChange={(e)=>{setUserId(e.target.value)}}
+          onChange={(e)=>{setLoginId(e.target.value)}}
         />
       </div>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">

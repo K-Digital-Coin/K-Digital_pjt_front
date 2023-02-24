@@ -76,9 +76,9 @@ const CoinChart3 = () => {
 console.log(minuteData)
   return (<>
   <CoinDetail/>
-  <div ref={chartRef} className="flex text-blue-400 w-4/5">
-  </div>
+  <div ref={chartRef} className="flex text-blue-400 ">
   <CoinPredict/>
+  </div>
   </>
   );
 };

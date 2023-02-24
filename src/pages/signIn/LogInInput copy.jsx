@@ -2,36 +2,35 @@ import axios from "axios";
 import { React, useState } from "react";
 import { useNavigate } from "react-router";
 
+
 const LogInInput = () => {
+  
+
   const [loginId, setloginId] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [savedloginId, setSavedloginId] = useState("");
+  const [savedPassword, setSavedPassword] = useState("");
+  
+  const sessionStorage = window.sessionStorage;
+  const navigate = useNavigate()
 
-  const getAuthHeader = () => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      return { Authorization: `Bearer ${token}` };
-    } else {
-      return {};
-    }
-  };
-
-  const clickLogin = async () => {
+  const clickLogin = async ()=>{
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signIn", {
+      const result = await axios.post('http://localhost:8080/api/auth/signIn', {
         loginId: loginId,
-        password: password,
+        password: password
       });
-      const accessToken = response.data.access_token;
-      sessionStorage.setItem("token", accessToken);
+      const token = result.data.access_token;
+      sessionStorage.setItem("token", token);
+      console.log(token)
       console.log("로그인 성공");
-      navigate("/");
-    } catch (error) {
+      navigate('/')
+    } 
+    catch (error) {
       console.error("로그인실패", error);
-      alert("다시 로그인해주세요");
+      alert('다시 로그인해주세요')
     }
-  };
-
+  }
   return (
     <>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
@@ -56,16 +55,21 @@ const LogInInput = () => {
             setPassword(e.target.value);
           }}
         />
-      </div>
-      <button
-        type="submit"
-        className="bg-indigo-500 w-full rounded hover:bg-indigo-600 hover:scale-105 py-2 mt-4 font-semibold"
-        onClick={() => {
-          clickLogin();
-        }}
-      >
-        로그인
-      </button>
+         </div>
+        <button
+          type="submit"
+          className="bg-indigo-500 w-full rounded hover:bg-indigo-600 hover:scale-105 py-2 mt-4 font-semibold"
+          onClick={() => {
+            sessionStorage.setItem("id", loginId);
+            sessionStorage.setItem("password", password);
+            setSavedloginId(sessionStorage.getItem("id"));
+            setSavedPassword(sessionStorage.getItem("password"));
+            clickLogin()
+          }}
+        >
+          로그인
+        </button>
+     
     </>
   );
 };
