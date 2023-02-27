@@ -24,7 +24,7 @@ const SignUp = () => {
         to-transparent -top-[50%] -left-[50%] animate-spin-delay origin-bottom-right"
         ></div>
         <div className="absolute inset-1 bg-gray-800 rounded-lg z-10 p-5">
-          <form className="space-y-7">
+          <div className="space-y-7">
             <h2 className="text-2xl font-semibold text-indigo-500 text-center">
               회원가입
             </h2>
@@ -73,7 +73,7 @@ const SignUp = () => {
               </a>
             </span>
             <SignUpInput />
-          </form>
+          </div>
         </div>
       </div>
     </div>

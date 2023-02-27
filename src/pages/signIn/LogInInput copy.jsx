@@ -14,8 +14,6 @@ const LogInInput = () => {
     }
   };
 
-
-
   const [loginId, setloginId] = useState("");
   const [password, setPassword] = useState("");
   const [savedloginId, setSavedloginId] = useState("");
@@ -31,7 +29,7 @@ const LogInInput = () => {
         password: password
       });
       const token = result.data.access_token;
-      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("accessToken", token);
       console.log(token)
       console.log("로그인 성공");
       navigate('/')

@@ -4,77 +4,83 @@ import axios from "axios";
 
 const SignUpInput = () => {
   
-  const [nickname, setnickname] = useState("");
-  const [loginId, setLoginId] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+const navigate = useNavigate();
 
+const [user , setUser] = useState({
+  loginId : "",
+  password : "",
+  nickname : ""
+})
+  
+  const successSignUp =()=>{
+    alert("회원가입 성공")
+    navigate('/logIn')
+  }
+  const changeValue = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // 회원가입 API
-  const clickSignUp = async () => {
+
+
+  const clickSignUp = async (e) => {
+    e.preventDefault()
     try {
-        const result = await axios.post("http://localhost:8080/api/member/signUp", {
-          nickname: nickname,
-          loginId: loginId,
-          password: password,
-        });
-        const token = result.data.token;
-        if (result === 200) {
-          sessionStorage.setItem("token", token);
-          alert(nickname + "님 반갑습니다");
-          navigate("/logIn");
-        } else {
-          alert("회원가입 실패하였습니다");
-        }
-      } catch (error) {
-        console.log(error);
-        alert("회원가입 실패하였습니다");
-      }
-    };
+      const result = await axios.post("/api/member/signUp",{
+        loginId : user.loginId,
+        nickname : user.nickname, 
+        password : user.password
+      })
+      result.data.code === 200 && successSignUp()
+    } catch (error) {
+      console.log(error)
+      alert(error.response.data.message)
+    }
+  }
 
 
   return (
-    <>
+    <div>
+    <form onSubmit={clickSignUp}>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
         <input
           type="text"
-          id="name"
+          name="nickname"
           autoFocus
           placeholder="이름"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
-          onChange={(e) => {
-            setnickname(e.target.value);
-          }}
+          onChange={changeValue}
         />
       </div>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
         <input
           type="text"
-          id="email"
-          autoFocus
+          name="loginId"
           placeholder="아이디 입력하세요"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
-          onChange={(e)=>{setLoginId(e.target.value)}}
+          onChange={changeValue}
         />
       </div>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
         <input
           type="password"
-          id="password"
+          name="password"
           placeholder="비밀번호 입력하세요"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
-          onChange={(e)=>{setPassword(e.target.value)}}
+          onChange={changeValue}
         />
       </div>
       <button
         className="bg-red-400 w-full rounded hover:bg-red-500 hover:scale-105 py-2 font-semibold"
-        onClick={() => {
-          clickSignUp()
-        }}
+        type="submit"
       >
         회원가입
       </button>
-    </>
+      </form>
+    </div>
   );
 };
 

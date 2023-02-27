@@ -33,7 +33,7 @@ const CoinDetail = () => {
   }, []);
 
   return (
-    <div className=''>
+    <div className='flex '>
       {data.map(item => (
         <div key={item.market} className="ml-2">
           <div className='space-y-1'>

@@ -5,6 +5,11 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+export const getUser = ()=>{
+  const userInfo = sessionStorage.getItem('nickname') 
+    return userInfo
+}
 root.render(
   <BrowserRouter>
     <App />

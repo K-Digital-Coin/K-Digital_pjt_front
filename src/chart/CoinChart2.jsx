@@ -319,7 +319,7 @@ const CoinChart2 = () => {
   }, []);
 
   return (<>
-  <div ref={chartRef} className="text-white w-4/5">
+  <div ref={chartRef} className="flex">
   </div>
 
   </>

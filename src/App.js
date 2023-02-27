@@ -15,7 +15,7 @@ const isLogin = true
   
 return (
 
-    <div className="bg-black h-screen text-white">
+    <div className="bg-black max-h-full text-white">
       <Navbar/>
       {/* <SignUp/> */}
     
