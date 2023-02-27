@@ -5,6 +5,16 @@ import { useNavigate } from "react-router";
 
 const LogInInput = () => {
   
+    const getAuthHeader = () => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      return { Authorization: `Bearer ${token}` };
+    } else {
+      return {};
+    }
+  };
+
+
 
   const [loginId, setloginId] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +26,7 @@ const LogInInput = () => {
 
   const clickLogin = async ()=>{
     try {
-      const result = await axios.post('http://localhost:8080/api/auth/signIn', {
+      const result = await axios.post('/api/auth/signIn', {
         loginId: loginId,
         password: password
       });

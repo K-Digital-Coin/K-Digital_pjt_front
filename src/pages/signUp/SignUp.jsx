@@ -6,7 +6,7 @@ const SignUp = () => {
 
   const changeHandler = (checked) => {
     if (checked) {
-      alert("약관 동의 되었스빈다");
+      alert("약관 동의 되었습니다");
     } else {
       setCheckInputs();
     }

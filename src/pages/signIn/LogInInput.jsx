@@ -1,36 +1,54 @@
 import axios from "axios";
 import { React, useState } from "react";
 import { useNavigate } from "react-router";
+import jwt_decode from "jwt-decode";
 
 const LogInInput = () => {
   const [loginId, setloginId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const getAuthHeader = () => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      return { Authorization: `Bearer ${token}` };
-    } else {
-      return {};
-    }
-  };
+
 
   const clickLogin = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/api/auth/signIn", {
-        loginId: loginId,
-        password: password,
+    
+    if (loginId && password){
+      const result = await axios.post('/api/auth/signIn',{
+        loginId : loginId,
+        password : password
+      })
+      .then((result)=>{
+        console.log(result)
+        const ACCESS_TOKEN = result.data.accessToken
+        const decoded = jwt_decode(ACCESS_TOKEN);
+        console.log(decoded.loginId)
+        // 토큰 localStorage에 저장
+        localStorage.setItem("token", ACCESS_TOKEN)
+
+        //SessionStorage에 저장
+        sessionStorage.setItem("nickName", decoded.nickName)
+        sessionStorage.setItem("loginId", decoded.loginId)
+        sessionStorage.setItem("password",decoded.password)
+        
+        alert(`${decoded.nickName}님 반갑습니다`)
+        
+        result.data.code === 200 && console.log("로그인완료")
+      })
+      
+      .catch((err) => {
+        alert(
+          "아이디 또는 비밀번호를 잘못 입력했습니다.", 
+        );
+        console.log(err)
       });
-      const accessToken = response.data.access_token;
-      sessionStorage.setItem("token", accessToken);
-      console.log("로그인 성공");
-      navigate("/");
-    } catch (error) {
-      console.error("로그인실패", error);
-      alert("다시 로그인해주세요");
-    }
-  };
+      } else if (!loginId) {
+      alert("아이디를 입력해주세요");
+      return;
+      } else {
+      alert("비밀번호를 입력해주세요");
+      return;
+      }
+};
 
   return (
     <>
@@ -58,7 +76,7 @@ const LogInInput = () => {
         />
       </div>
       <button
-        type="submit"
+        type="button"
         className="bg-indigo-500 w-full rounded hover:bg-indigo-600 hover:scale-105 py-2 mt-4 font-semibold"
         onClick={() => {
           clickLogin();

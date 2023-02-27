@@ -4,37 +4,34 @@ import axios from "axios";
 
 const SignUpInput = () => {
   
-
   const [nickname, setnickname] = useState("");
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
 
-
   // 회원가입 API
   const clickSignUp = async () => {
-    if (nickname && loginId && password) {
-      const result = await axios.post("/api/member/signUp",{
-        loginId : loginId,
-        nickname : nickname, 
-        password : password
-      })
-      console.log(result.status)
-      if(result.status === 200) {
-        alert("회원가입 성공")
-        navigate('/logIn')
-      } else {
-        alert("회원가입 실패")
+    try {
+        const result = await axios.post("http://localhost:8080/api/member/signUp", {
+          nickname: nickname,
+          loginId: loginId,
+          password: password,
+        });
+        const token = result.data.token;
+        if (result === 200) {
+          sessionStorage.setItem("token", token);
+          alert(nickname + "님 반갑습니다");
+          navigate("/logIn");
+        } else {
+          alert("회원가입 실패하였습니다");
+        }
+      } catch (error) {
+        console.log(error);
+        alert("회원가입 실패하였습니다");
       }
-    } else if(!nickname) {
-      alert("닉네임 입력하세요")
-    } else if(!loginId){
-      alert("아이디 입력하세요")
-    } else {
-      alert("비밀번호 입력하세요")
-    }
-  }
+    };
+
 
   return (
     <>
@@ -54,6 +51,7 @@ const SignUpInput = () => {
         <input
           type="text"
           id="email"
+          autoFocus
           placeholder="아이디 입력하세요"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e)=>{setLoginId(e.target.value)}}
