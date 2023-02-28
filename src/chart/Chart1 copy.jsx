@@ -3,34 +3,32 @@ import ApexCharts from "apexcharts";
 import { useInterval } from "../useInterval"; // useInterval 커스텀 훅
 import CoinDetail from "../components/CoinDetail";
 import CoinPredict from "../components/CoinPredict";
+import client from '../config/axiosConfig'
+import CoinChart2 from "./CoinChart2";
 
-const MainChart = () => {
+const CoinChart3 = () => {
   const chartRef = useRef(null);
   const [minuteData, setMinuteData] = useState([]);
   const [hourData, setHourData] = useState([]);
   const [dayData, setDayData] = useState([]);
 
-  // useInterval 커스텀 훅 사용
-  useInterval(() => {
-    // upbit api 요청
-    fetch(
-      "https://api.upbit.com/v1/candles/minutes/1?market=KRW-BTC&count=60"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        // 차트 데이터 생성
-        const chartData = {
-          name: "candle",
-          type: "candlestick",
-          data: data.map((item) => ({
-            x: new Date(item.candle_date_time_kst),
-            y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
-          })),
-        };
-        setMinuteData([chartData]);
-      })
-      .catch((err) => console.log(err));
-  }, 5000); // 5초마다 api 요청
+
+  useEffect(()=>{
+    // client
+    // .get('/api/historyCoins')
+    // .then((data)=>{
+    //   const chartData = {
+    //     name: "candle",
+    //     type: "candlestick",
+    //     data: data.list.map((item) => ({
+    //       x: new Date(item.candle_date_time_kst),
+    //       y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
+    //     })),
+    //   };
+    //   setMinuteData([chartData]);
+    // })
+    // .catch((error)=>console.log(error))
+  },[])
 
   useEffect(() => {
     // 차트 설정
@@ -72,13 +70,14 @@ const MainChart = () => {
       chart.destroy();
     };
   }, [minuteData]);
-console.log(minuteData)
+
+
   return (<>
-  <CoinDetail/>
-  <div ref={chartRef} className=" text-blue-400">
+  <div ref={chartRef} className="text-blue-400 w-2/3">
   </div>
+  
   </>
   );
 };
 
-export default MainChart;
+export default CoinChart3;

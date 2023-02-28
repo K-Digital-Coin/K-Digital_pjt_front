@@ -46,7 +46,7 @@ client.interceptors.response.use(
           refreshToken: localStorage.getItem('refreshToken'),
         });
         if (response) {
-          console.log(response);
+          // console.log(response);
           const { accessToken, refreshToken } = response.data.data;
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
