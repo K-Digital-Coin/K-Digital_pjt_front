@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import ApexCharts from "apexcharts";
 import { useInterval } from "../useInterval"; // useInterval 커스텀 훅
 import CoinDetail from "../components/CoinDetail";
-import CoinPredict from "../components/CoinPredict";
 
 const MainChart = () => {
   const chartRef = useRef(null);
@@ -72,7 +71,7 @@ const MainChart = () => {
       chart.destroy();
     };
   }, [minuteData]);
-console.log(minuteData)
+
   return (<>
   <CoinDetail/>
   <div ref={chartRef} className=" text-blue-400">

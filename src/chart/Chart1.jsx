@@ -71,7 +71,7 @@ const CoinChart3 = () => {
     <>
     {
       loading === false ?
-      <div ref={chartRef} className="text-blue-400 w-2/3"></div>
+      <div ref={chartRef} className="text-blue-400 w-3/5"></div>
       : <p>로딩중 입니다</p>
     }
     </>

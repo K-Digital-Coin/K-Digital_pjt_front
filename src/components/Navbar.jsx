@@ -21,6 +21,9 @@ const Navbar = () => {
         <button onClick={()=>{navigate('/signUp')}}
           className="border-1 rounded-md border-[#232530] bg-transparent uppercase hover:scale-110 hover:text-white hover:bg-red-500 text-xl">
           SignUp
+          </button> <button onClick={()=>{navigate('/trading')}}
+          className="border-1 rounded-md border-[#232530] bg-transparent uppercase hover:scale-110 hover:text-white hover:bg-purple-500 text-xl">
+          Trading
           </button>
         </div>
            {/* <p

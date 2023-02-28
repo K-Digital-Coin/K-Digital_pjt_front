@@ -2,9 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import client from '../config/axiosConfig'
 import Chart1 from '../chart/Chart1'
 import MainChart from "./MainChart";
-import Listbar from "../components/ListBar"
 import CoinChart2 from "./CoinChart2";
-import { Chart } from "chart.js";
 
 
 const CoinChart = () => {
@@ -23,12 +21,12 @@ const CoinChart = () => {
 
 
   return (
-  <div className="grid grid-rows-3 grid-flow-col bg-black">
+  <div className="grid lg:grid-rows-3 grid-flow-col bg-black ">
   <div className="col-span-4">
-  <MainChart/>
-  <CoinChart2/>
+  <MainChart/>{/* 비트코인 실시간 차트 */}
+  <CoinChart2/>{/* 100개 데이터 차트 */}
+  <Chart1/> {/*2만개 받아오는 차트*/}
   </div>
-  <Listbar/>
   </div>
   );
 };
