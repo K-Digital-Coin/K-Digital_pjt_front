@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import ApexCharts from "apexcharts";
 import client from "../config/axiosConfig";
+import CoinDetail from '../components/CoinDetail'
 
 // 기존 차트 버젼
 const CoinChart2 = () => {
@@ -67,26 +68,6 @@ const CoinChart2 = () => {
   }, []);
 
   useEffect(() => {
-    // let xaxisType, xaxisFormat;
-    // let tickAmount = 10;
-
-    // // if (selectedInterval === "minutes/1") {
-    // //   xaxisType = "datetime";
-    // //   xaxisFormat = "HH:mm:ss";
-    // //   tickAmount = 10;
-    // // } else if (selectedInterval === "minutes/240") {
-    // //   xaxisType = "datetime";
-    // //   xaxisFormat = "MM/dd HH:mm:ss";
-    // //   tickAmount = 24;
-    // // } else if (selectedInterval === "days/") {
-    // //   xaxisType = "datetime";
-    // //   xaxisFormat = "MM/dd";
-    // //   tickAmount = 10;
-    // // } else {
-    // //   xaxisType = "category";
-    // //   xaxisFormat = undefined;
-    // // }
-
     const options = {
       series: [
         {
@@ -94,6 +75,11 @@ const CoinChart2 = () => {
           type: "candlestick",
           data: historyCoins,
         },
+        {
+          name : '지표',
+          type : 'bar',
+          data : historyCoins
+        }
       ],
       chart: {
         height: 350,
@@ -156,6 +142,7 @@ const CoinChart2 = () => {
 
   return (
     <>
+    <CoinDetail/>
     <div className="relative">
       <button
         className="absolute z-20 flex items-center right-0 mr-36
@@ -165,8 +152,8 @@ const CoinChart2 = () => {
         예측 시작
       </button>
       <div ref={chartRef} className="text-blue-400 z-10">
-        
       </div>
+      
     </div>
   </>
   );
