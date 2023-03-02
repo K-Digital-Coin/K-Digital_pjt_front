@@ -20,3 +20,4 @@ export const selectedCoinInfoState = atom({
   key: "selectedCoinInfoState",
   default: {},
 });
+

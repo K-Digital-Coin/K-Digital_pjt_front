@@ -2,6 +2,7 @@ import axios from "axios";
 import { React, useState } from "react";
 import { useNavigate } from "react-router";
 import jwt_decode from "jwt-decode";
+import client from "../../config/axiosConfig";
 
 const LogInInput = () => {
   const [loginId, setloginId] = useState("");
@@ -23,19 +24,21 @@ const LogInInput = () => {
         const REFRESH_TOKEN = result.data.data.refreshToken
         const decoded = jwt_decode(ACCESS_TOKEN);
         
-        
         // 토큰 localStorage에 저장
         localStorage.setItem("accessToken", ACCESS_TOKEN)
         localStorage.setItem('refreshToken', REFRESH_TOKEN)
         // console.log(JSON.stringify(decoded))
-        // //SessionStorage에 저장
-        sessionStorage.setItem("nickName",decoded.nickname)
-        sessionStorage.setItem("loginId", decoded.loginId)
-        sessionStorage.setItem("password",decoded.password)
-        // sessionStorage.getItem('nickname')
-        alert(`${sessionStorage.getItem('nickname')}님 반갑습니다`)
+      })
+      // //SessionStorage에 저장
+      .then((result)=>{
+        client
+        .get('api/member/me')
+        .then((result)=>{
+          sessionStorage.setItem('nickname',result.data.data.nickname)
+          alert(`${sessionStorage.getItem('nickname')}님 반갑습니다`)
         
-        result.data.code === 200 && navigate('/coinChart')
+          result.data.code === 200 && navigate('/coinChart')
+        })
       })
       
       .catch((err) => {

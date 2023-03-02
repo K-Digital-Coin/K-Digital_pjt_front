@@ -4,10 +4,15 @@ import client from '../config/axiosConfig'
 import CoinChart2 from "./CoinChart2";
 
 
+
 const CoinChart3 = () => {
   const chartRef = useRef(null);
   const [minuteData, setMinuteData] = useState([]);
   const [loading, setLoading] = useState(true)
+
+  
+
+
 
 
   useEffect(()=>{
@@ -69,11 +74,7 @@ const CoinChart3 = () => {
 
   return (
     <>
-    {
-      loading === false ?
       <div ref={chartRef} className="text-blue-400 w-3/5"></div>
-      : <p>로딩중 입니다</p>
-    }
     </>
   );
 };

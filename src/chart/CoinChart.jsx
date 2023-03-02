@@ -25,7 +25,7 @@ const CoinChart = () => {
   <div className="col-span-4">
   <MainChart/>{/* 비트코인 실시간 차트 */}
   <CoinChart2/>{/* 100개 데이터 차트 */}
-  <Chart1/> {/*2만개 받아오는 차트*/}
+  <Chart1/>   {/*2만개 받아오는 차트*/}
   </div>
   </div>
   );

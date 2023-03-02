@@ -52,7 +52,7 @@ const CoinChart2 = () => {
       },
       xaxis: {
         type: "datetime",
-        tickAmount: 100, // x축 눈금 개수
+        tickAmount: 10, // x축 눈금 개수
         labels: {
           datetimeUTC: false, // UTC 시간이 아닌 로컬 시간을 사용하도록 설정
           // format: "yyyy-MM-dd HH:mm:ss", // format 바꾸기

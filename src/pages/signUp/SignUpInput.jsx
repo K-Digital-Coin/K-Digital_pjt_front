@@ -25,7 +25,6 @@ const [password, setPassword] = useState("");
         nickname : nickname, 
         password : password
       })
-      sessionStorage.setItem('nickname' , nickname)
       result.data.code === 200 && successSignUp()
     } catch (error) {
       console.log(error)

@@ -6,10 +6,10 @@ import { selectedCoinInfoState, selectedCoinState } from "./atom";
 
 const OrderBookContatiner = styled.div`
   grid-row: span 2;
-  background-color: black;
+  background-color: white;
   height: 100%;
   overflow: overlay;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
 `;
 
 const AskContainer = styled.div`

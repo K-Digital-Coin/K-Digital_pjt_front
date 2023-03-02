@@ -6,8 +6,9 @@ import { selectedCoinInfoState, selectedCoinState } from "./atom";
 const CoinInfoBox = styled.div`
   height: 100%;
   grid-column: 1 / span 3;
-  background-color: white;
+  background-color: black;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  color: white;
 `;
 
 const NameInfoArea = styled.div`

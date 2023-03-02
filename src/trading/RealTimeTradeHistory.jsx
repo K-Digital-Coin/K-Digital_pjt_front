@@ -7,11 +7,12 @@ import { selectedCoinState } from "./atom";
 
 const TradeHistoryContainer = styled.div`
   grid-column: 1 / span 2;
-  background-color: white;
+  background-color: black;
   font-size: 11px;
   overflow: overlay;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding: 5px;
+  color : white;
 `;
 const TradeTableHeader = styled.div`
   display: grid;
