@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import LogIn from "./pages/signIn/LogIn";
 import SignUp from "./pages/signUp/SignUp";
 import Home from "./pages/Home";
-import Trading from "./trading/TotalExample";
+import Trading from "./trading/Trading";
 import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 

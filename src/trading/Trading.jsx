@@ -50,7 +50,7 @@ function TotalExample() {
   }, [fetchedMC]);
 
   return (
-    <div className="grid grid-rows-3 grid-flow-col gap-4 text-black">
+    <div className="grid grid-rows-3 grid-flow-col gap-4 text-black h-screen">
       <CoinSelector />
       <CoinDetails />
 
