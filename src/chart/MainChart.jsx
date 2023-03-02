@@ -6,20 +6,13 @@ import client from "../config/axiosConfig";
 const CoinChart2 = () => {
   const chartRef = useRef(null);
   const [historyCoins, setHistoryCoins] = useState([]);
-  const [test, setTest] = useState([''])
+  const [predictCoins, setPredictCoins] = useState([]);
   let socket;
 
-//   const updateObj = () => {
-//     console.log('testCount', historyCoins);
-// };
-
-
-// useEffect(() => {
-//     if (historyCoins.length === 0) return
-//     updateObj()
-//   }, [historyCoins]);
-
-
+  const clear = () => {
+    setHistoryCoins([...historyCoins.slice(0, 100)]);
+    setPredictCoins([]);
+  };
 
   const predict = () => {
     try {
@@ -41,8 +34,12 @@ const CoinChart2 = () => {
             parseFloat(data[0].tradePrice),
           ],
         };
+        const predictData = {
+          x: new Date(data[1].dateTime),
+          y: data[1].price,
+        };
         setHistoryCoins((prev) => [...prev, currentData]);
-        console.log(historyCoins)
+        setPredictCoins((prev) => [...prev, predictData]);
       };
     } catch (error) {
       console.log(error);
@@ -86,6 +83,8 @@ const CoinChart2 = () => {
     // //   xaxisType = "category";
     // //   xaxisFormat = undefined;
     // // }
+    console.log(historyCoins);
+    console.log(predictCoins);
 
     const options = {
       series: [
@@ -99,22 +98,24 @@ const CoinChart2 = () => {
         height: 350,
         type: "candlestick",
       },
-      annotations :{
-        xaxis : [{
-          x : new Date().getTime(),
-          borderColor: '#00E396',
-              label: {
-                borderColor: '#00E396',
-                style: {
-                  fontSize: '20px',
-                  color: '#fff',
-                  background: '#00E396'
-                },
-                orientation: 'horizontal',
-                offsetY: 5,
-                text: '현재 시각'
-              }
-        }]
+      annotations: {
+        xaxis: [
+          {
+            x: new Date().getTime(),
+            borderColor: "#00E396",
+            label: {
+              borderColor: "#00E396",
+              style: {
+                fontSize: "20px",
+                color: "#fff",
+                background: "#00E396",
+              },
+              orientation: "horizontal",
+              offsetY: 5,
+              text: "현재 시각",
+            },
+          },
+        ],
       },
       title: {
         text: "비트코인 차트",
@@ -146,7 +147,7 @@ const CoinChart2 = () => {
         type: "candlestick",
         data: historyCoins,
       },
-    ],);
+    ]);
     // chartRef.current.classList.add("minute");
 
     return () => {
@@ -156,19 +157,24 @@ const CoinChart2 = () => {
 
   return (
     <>
-    <div className="relative">
-      <button
-        className="absolute z-20 flex items-center right-0 mr-36
+      <div className="relative">
+        <button
+          className="absolute z-20 flex items-center right-20 mr-36
         bg-blue-900 hover:bg-blue-300 rounded border-spacing-2"
-        onClick={() => predict()}
-      >
-        예측 시작
-      </button>
-      <div ref={chartRef} className="text-blue-400 z-10">
-        
+          onClick={() => clear()}
+        >
+          초기화
+        </button>
+        <button
+          className="absolute z-20 flex items-center right-0 mr-36
+        bg-blue-900 hover:bg-blue-300 rounded border-spacing-2"
+          onClick={() => predict()}
+        >
+          예측 시작
+        </button>
+        <div ref={chartRef} className="text-blue-400 z-10"></div>
       </div>
-    </div>
-  </>
+    </>
   );
 };
 
