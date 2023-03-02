@@ -41,7 +41,7 @@ const [password, setPassword] = useState("");
           type="text"
           id="name"
           autoFocus
-          placeholder="이름"
+          placeholder="닉네임"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e) => {
             setnickname(e.target.value);

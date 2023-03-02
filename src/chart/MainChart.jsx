@@ -1,102 +1,175 @@
 import React, { useRef, useEffect, useState } from "react";
 import ApexCharts from "apexcharts";
-import { useInterval } from "../useInterval"; // useInterval 커스텀 훅
-import CoinDetail from "../components/CoinDetail";
+import client from "../config/axiosConfig";
 
-const MainChart = () => {
+// 기존 차트 버젼
+const CoinChart2 = () => {
   const chartRef = useRef(null);
-  const [chartData, setChartData] = useState([]);
-  const [selectedInterval, setSelectedInterval] = useState("minute");
+  const [historyCoins, setHistoryCoins] = useState([]);
+  const [test, setTest] = useState([''])
+  let socket;
 
-  // useInterval 커스텀 훅 사용
-  useInterval(() => {
-    // upbit api 요청
-    fetch(
-      `https://api.upbit.com/v1/candles/${selectedInterval}s/1?market=KRW-BTC&count=60`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        // 차트 데이터 생성
-        const newData = data.map((item) => ({
-          x: new Date(item.candle_date_time_kst),
-          y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
-        }));
-        setChartData(newData);
-      })
-      .catch((err) => console.log(err));
-  }, 5000); // 5초마다 api 요청
+//   const updateObj = () => {
+//     console.log('testCount', historyCoins);
+// };
+
+
+// useEffect(() => {
+//     if (historyCoins.length === 0) return
+//     updateObj()
+//   }, [historyCoins]);
+
+
+
+  const predict = () => {
+    try {
+      if (socket) {
+        socket.close();
+      }
+      socket = new WebSocket("ws://localhost:8080/coin");
+      socket.onopen = () => {
+        console.log("WebSocket Open");
+      };
+      socket.onmessage = (msg) => {
+        const data = JSON.parse(msg.data);
+        const currentData = {
+          x: new Date(data[0].candleDateTimeKst),
+          y: [
+            parseFloat(data[0].openingPrice),
+            parseFloat(data[0].highPrice),
+            parseFloat(data[0].lowPrice),
+            parseFloat(data[0].tradePrice),
+          ],
+        };
+        setHistoryCoins((prev) => [...prev, currentData]);
+        console.log(historyCoins)
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getHistoryCoins = async () => {
+    try {
+      const historyResponse = await client.get("/api/historyCoins");
+      const historyData = historyResponse.data.data.list.map((item) => ({
+        x: new Date(item.candleDateTimeKst),
+        y: [item.openingPrice, item.highPrice, item.lowPrice, item.tradePrice],
+      }));
+      setHistoryCoins([...historyData, ...historyCoins]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    // 차트 설정
+    getHistoryCoins();
+  }, []);
+
+  useEffect(() => {
+    // let xaxisType, xaxisFormat;
+    // let tickAmount = 10;
+
+    // // if (selectedInterval === "minutes/1") {
+    // //   xaxisType = "datetime";
+    // //   xaxisFormat = "HH:mm:ss";
+    // //   tickAmount = 10;
+    // // } else if (selectedInterval === "minutes/240") {
+    // //   xaxisType = "datetime";
+    // //   xaxisFormat = "MM/dd HH:mm:ss";
+    // //   tickAmount = 24;
+    // // } else if (selectedInterval === "days/") {
+    // //   xaxisType = "datetime";
+    // //   xaxisFormat = "MM/dd";
+    // //   tickAmount = 10;
+    // // } else {
+    // //   xaxisType = "category";
+    // //   xaxisFormat = undefined;
+    // // }
+
     const options = {
       series: [
         {
-          name: "candle",
+          name: "시세",
           type: "candlestick",
-          data: chartData,
+          data: historyCoins,
         },
       ],
       chart: {
-        height: 400,
+        height: 350,
         type: "candlestick",
+      },
+      annotations :{
+        xaxis : [{
+          x : new Date().getTime(),
+          borderColor: '#00E396',
+              label: {
+                borderColor: '#00E396',
+                style: {
+                  fontSize: '20px',
+                  color: '#fff',
+                  background: '#00E396'
+                },
+                orientation: 'horizontal',
+                offsetY: 5,
+                text: '현재 시각'
+              }
+        }]
+      },
+      title: {
+        text: "비트코인 차트",
+        align: "Center",
+      },
+      stroke: {
+        width: [3, 1],
       },
       xaxis: {
         type: "datetime",
-        tickAmount: 10, // x축 눈금 개수
+        tickAmount: 50, // x축 눈금 개수
         labels: {
           datetimeUTC: false, // UTC 시간이 아닌 로컬 시간을 사용하도록 설정
-          format: "HH:mm:ss", // x축 레이블 형식
+          format: "yyyy-MM-dd HH:mm:ss", // format 바꾸기
+          // format: "HH:mm:ss", // x축 레이블 형식
         },
       },
-      yaxis: {
-        tooltip: {
-          enabled: true,
-        },
+      tooltip: {
+        shared: true,
       },
     };
 
-    // 차트 렌더링
     const chart = new ApexCharts(chartRef.current, options);
     chart.render();
+
+    chart.updateSeries([
+      {
+        name: "시세",
+        type: "candlestick",
+        data: historyCoins,
+      },
+    ],);
+    // chartRef.current.classList.add("minute");
 
     return () => {
       chart.destroy();
     };
-  }, [chartData]);
-
-  const handleIntervalChange = (interval) => {
-    setSelectedInterval(interval);
-  };
+  }, [historyCoins]);
 
   return (
-    <div className="chart-container">
-      <div className="chart-header">
-        <h2>Bitcoin Chart</h2>
-        <div className="chart-interval">
-          <button
-            className={`${selectedInterval === "minute" ? "active" : ""} btn-interval`}
-            onClick={() => handleIntervalChange("minute")}
-          >
-            1분
-          </button>
-          <button
-            className={`${selectedInterval === "hour" ? "active" : ""} btn-interval`}
-            onClick={() => handleIntervalChange("hour")}
-          >
-            1시간
-          </button>
-          <button
-            className={`${selectedInterval === "day" ? "active" : ""} btn-interval`}
-            onClick={() => handleIntervalChange("day")}
-          >
-            1일
-          </button>
-        </div>
+    <>
+    <div className="relative">
+      <button
+        className="absolute z-20 flex items-center right-0 mr-36
+        bg-blue-900 hover:bg-blue-300 rounded border-spacing-2"
+        onClick={() => predict()}
+      >
+        예측 시작
+      </button>
+      <div ref={chartRef} className="text-blue-400 z-10">
+        
       </div>
-      <div className="text-blue-400" ref={chartRef}></div>
-      <CoinDetail />
     </div>
+  </>
   );
 };
 
-export default MainChart;
+export default CoinChart2;
