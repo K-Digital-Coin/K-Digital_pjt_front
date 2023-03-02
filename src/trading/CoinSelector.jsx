@@ -6,7 +6,7 @@ import {
   marketCodesState,
   selectedCoinInfoState,
   selectedCoinState,
-} from "../context/atom";
+} from "./atom";
 
 const convertMillonWon = (value) => {
   const MILLION = 1000000;
@@ -17,7 +17,8 @@ const convertMillonWon = (value) => {
 const CoinListBox = styled.div`
   height: 800px;
   margin: 5px;
-  background-color: white;
+  color: white;
+  background-color: black;
   overflow: overlay;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 `;
@@ -27,7 +28,6 @@ const CoinBoxHeader = styled.div`
   position: sticky;
   top: 1px;
   background-color: black;
-  color: white;
   opacity: 0.8;
   height: 35px;
   display: grid;
@@ -51,9 +51,9 @@ const CoinBox = styled.div`
   padding-left: 5px;
   padding-right: 5px;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? "lightgrey" : "inherit")};
+  background-color: ${(props) => (props.selected ? "grey" : "inherit")};
   :hover {
-    background-color: lightgrey;
+    background-color: gray;
   }
   div {
     display: flex;
@@ -83,7 +83,7 @@ const CoinBoxName = styled.div`
   font-size: 11px;
 
   div:nth-child(2) {
-    color: gray;
+    color: beige;
     font-weight: 400;
     font-size: 7px;
   }
@@ -96,11 +96,11 @@ const CoinBoxPrice = styled.div`
       case "RISE":
         return "#EF1C1C";
       case "EVEN":
-        return "#000000";
+        return "white";
       case "FALL":
         return "#1261C4";
       default:
-        return "#000000";
+        return "white";
     }
   }};
 `;
@@ -111,11 +111,11 @@ const CoinBoxChange = styled.div`
       case "RISE":
         return "#EF1C1C";
       case "EVEN":
-        return "#000000";
+        return "white";
       case "FALL":
         return "#1261C4";
       default:
-        return "#000000";
+        return "white";
     }
   }};
 `;
@@ -156,9 +156,9 @@ function CoinSelector() {
     );
     setSelectedCoin(currentTarget);
   };
-  console.log(socketData)
 
   return (
+    <div className="row-span-3">
     <CoinListBox>
       <CoinBoxHeader>
         <div>코인</div>
@@ -214,6 +214,7 @@ function CoinSelector() {
           })
         : null}
     </CoinListBox>
+    </div>
   );
 }
 

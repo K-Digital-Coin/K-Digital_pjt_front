@@ -33,7 +33,7 @@ const CoinDetail = () => {
   }, []);
 
   return (
-    <div className=''>
+    <div className='row-span-2'>
       {data.map(item => (
         <div key={item.market} className="ml-2">
           <div className='space-y-1'>
