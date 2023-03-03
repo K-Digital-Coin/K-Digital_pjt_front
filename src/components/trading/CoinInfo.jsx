@@ -4,15 +4,13 @@ import styled from "styled-components";
 import { selectedCoinInfoState, selectedCoinState } from "./atom";
 
 const CoinInfoBox = styled.div`
-  height: 100%;
-  grid-column: 1 / span 3;
+  height: auto;
   background-color: black;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   color: white;
 `;
 
 const NameInfoArea = styled.div`
-  grid-column: 1 / span 2;
   display: flex;
   gap: 5px;
   padding: 8px;

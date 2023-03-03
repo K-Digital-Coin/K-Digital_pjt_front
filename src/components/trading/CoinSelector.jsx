@@ -7,6 +7,7 @@ import {
   selectedCoinInfoState,
   selectedCoinState,
 } from "./atom";
+import CoinDetails from "./CoinDetails";
 
 const convertMillonWon = (value) => {
   const MILLION = 1000000;
@@ -15,6 +16,7 @@ const convertMillonWon = (value) => {
 };
 
 const CoinListBox = styled.div`
+  width : 600px;
   height: 800px;
   margin: 5px;
   color: white;
@@ -25,15 +27,14 @@ const CoinListBox = styled.div`
 
 const CoinBoxHeader = styled.div`
   position: -webkit-sticky;
-  position: sticky;
   top: 1px;
   background-color: black;
   opacity: 0.8;
   height: 35px;
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
+  grid-template-columns: 0.5fr 0.5fr 0.5fr 0.5fr;
   border-bottom: 0.5px solid lightgrey;
-  font-size: 12px;
+  font-size: 20px;
   font-weight: 600;
   div {
     display: flex;
@@ -158,7 +159,7 @@ function CoinSelector() {
   };
 
   return (
-    <div className="row-span-3">
+    <div className="flex">
     <CoinListBox>
       <CoinBoxHeader>
         <div>코인</div>

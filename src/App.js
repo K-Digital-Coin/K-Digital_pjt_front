@@ -1,5 +1,5 @@
 
-import CoinChart from "./pages/list/ChartList";
+import ChartList from "./pages/list/ChartList";
 import Navbar from "./components/nav/Navbar";
 import LogIn from "./pages/signIn/LogIn";
 import SignUp from "./pages/signUp/SignUp";
@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Trading from "./pages/trading/Trading";
 import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import Chart from "./pages/coinChart/Chart";
 
 
 
@@ -20,7 +21,8 @@ function App() {
                 <Route path="/signUp" element={<SignUp />} />
                 <Route path="/logIn" element={<LogIn />} />
                 <Route path="/trading" element={<RecoilRoot><Trading /></RecoilRoot>} />
-                <Route path="/coinChart" element={<CoinChart />} />
+                <Route path="/chartList" element={<ChartList />} />
+                <Route path="/chart/:paramId" element={<Chart/>}/>
               </Routes> 
             </div>
          

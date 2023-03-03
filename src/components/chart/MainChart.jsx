@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
-import client from "../config/axiosConfig";
+import ApexChart from "react-apexcharts";
+import client from "../../config/axiosConfig";
 
 // 기존 차트 버젼
-const TestChart = () => {
+const MainChart = () => {
   const [historyCoins, setHistoryCoins] = useState([]);
+  const [currentCoins, setCurrentCoins] = useState([]);
   const [predictCoins, setPredictCoins] = useState([]);
+  
+  
   const [options, setOptions] = useState({
     title: {
       text: "비트코인 차트",
       align: "Center",
     },
     stroke: {
-      width: [1, 5],
+      width: [1, 2, 2],
       curve: "straight",
-    },
-    fill: {
-      colors: ["", "yellow"],
     },
     xaxis: {
       type: "datetime",
@@ -25,13 +25,20 @@ const TestChart = () => {
         datetimeUTC: false, // UTC 시간이 아닌 로컬 시간을 사용하도록 설정
         format: "yyyy-MM-dd HH:mm", // format 바꾸기
       },
-      categories: "1234",
+      // yaxis : {
+      //   tooltip: {
+      //     enabled: true,
+      //     }
+      // }
     },
     tooltip: {
+      enabled: true,
       shared: true,
       x: {
         format: "MM-dd HH:mm",
       },
+      y : {
+      } 
     },
   });
 
@@ -39,6 +46,11 @@ const TestChart = () => {
     {
       name: "history",
       type: "candlestick",
+      data: [],
+    },
+    {
+      name: "current",
+      type: "line",
       data: [],
     },
     {
@@ -52,6 +64,7 @@ const TestChart = () => {
 
   const clear = () => {
     setHistoryCoins([...historyCoins.slice(0, 100)]);
+    setCurrentCoins([]);
     setPredictCoins([]);
   };
 
@@ -68,18 +81,13 @@ const TestChart = () => {
         const data = JSON.parse(msg.data);
         const currentData = {
           x: new Date(data[0].candleDateTimeKst),
-          y: [
-            parseFloat(data[0].openingPrice),
-            parseFloat(data[0].highPrice),
-            parseFloat(data[0].lowPrice),
-            parseFloat(data[0].tradePrice),
-          ],
+          y: parseFloat(data[0].tradePrice),
         };
         const predictData = {
           x: new Date(data[1].dateTime),
           y: data[1].price,
         };
-        setHistoryCoins((prev) => [...prev, currentData]);
+        setCurrentCoins((prev) => [...prev, currentData]);
         setPredictCoins((prev) => [...prev, predictData]);
       };
     } catch (error) {
@@ -94,7 +102,7 @@ const TestChart = () => {
         x: new Date(item.candleDateTimeKst),
         y: [item.openingPrice, item.highPrice, item.lowPrice, item.tradePrice],
       }));
-      setHistoryCoins([...historyData, ...historyCoins]);
+      setHistoryCoins([...historyCoins, ...historyData]);
     } catch (error) {
       console.log(error);
     }
@@ -112,16 +120,21 @@ const TestChart = () => {
         data: historyCoins,
       },
       {
+        name: "current",
+        type: "line",
+        data: currentCoins,
+      },
+      {
         name: "predict",
         type: "line",
         data: predictCoins,
       },
     ]);
-  }, [historyCoins]);
+  }, [historyCoins, currentCoins]);
 
   return (
     <>
-      <div className="relative">
+      <div className="relative max-w-full">
         <button
           className="absolute z-20 flex items-center right-20 mr-36
         bg-blue-900 hover:bg-blue-300 rounded border-spacing-2"
@@ -136,10 +149,9 @@ const TestChart = () => {
         >
           예측 시작
         </button>
-        <Chart
+        <ApexChart
           options={options}
           series={series}
-          // type="candlestick"
           height={500}
           className="text-blue-400 z-10"
         />
@@ -148,4 +160,4 @@ const TestChart = () => {
   );
 };
 
-export default TestChart;
+export default MainChart;

@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { useFetchMarketCode } from "use-upbit-api";
+import IndicatorChart from "../../components/chart/IndicatorChart";
+import MainChart from "../../components/chart/MainChart";
 import { marketCodesState } from "../../components/trading/atom"
 import CoinDetails from "../../components/trading/CoinDetails";
 import CoinSelector from "../../components/trading/CoinSelector";
@@ -39,7 +41,7 @@ const DisplayBoard = styled.main`
 `;
 
 function TotalExample() {
-  const { isLoading, marketCodes: fetchedMC } = useFetchMarketCode();
+  const {isLoading, marketCodes: fetchedMC } = useFetchMarketCode();
   const [marketCodes, setMarketCodes] = useRecoilState(marketCodesState);
 
   useEffect(() => {
@@ -49,12 +51,20 @@ function TotalExample() {
     setMarketCodes(MarketCodes_KRW);
   }, [fetchedMC]);
 
-  return (
-    <div className="grid grid-rows-3 grid-flow-col gap-4 text-black h-screen">
+  return (<>
+    <div className="grid grid-rows-3 grid-flow-col  text-black h-screen">
+      <div className="row-span-3">
       <CoinSelector />
+      </div>
+      <div className="col-span-2 h-[200px] w-full">
       <CoinDetails/>
-
+      <MainChart/>
+      <IndicatorChart/>
+      </div>
     </div>
+
+      
+    </>
   );
 }
 export default TotalExample;

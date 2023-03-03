@@ -37,7 +37,7 @@ const LogInInput = () => {
           sessionStorage.setItem('nickname',result.data.data.nickname)
           alert(`${sessionStorage.getItem('nickname')}님 반갑습니다`)
         
-          result.data.code === 200 && navigate('/coinChart')
+          result.data.code === 200 && navigate('/trading')
         })
       })
       
