@@ -6,7 +6,7 @@ import {
   marketCodesState,
   selectedCoinInfoState,
   selectedCoinState,
-} from "../context/atom";
+} from "../../context/atom";
 
 const convertMillonWon = (value) => {
   const MILLION = 1000000;

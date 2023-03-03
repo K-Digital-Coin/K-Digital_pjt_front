@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import client from "../../config/axiosConfig";
-import MainChart from "../../components/MainChart"
-import CoinChart2 from "../../components/CoinChart2";
+
 
 
 const CoinChart = () => {
@@ -20,17 +19,27 @@ const CoinChart = () => {
 
 
   return (
-  <div className="grid lg:grid-rows-3 grid-flow-col bg-black ">
-  <div className="col-span-4">
+  // <div className="grid lg:grid-rows-3 grid-flow-col bg-black ">
+  // <div className="col-span-4">
+  <div>
+    <div>
+ 
+      <ul>
+        <li>Ma 지표모델</li>
+        <li>BBP 지표모델</li>
+        <li>BBC 지표모델</li>
+        <li>BBM 지표모델</li>
+        <li>MACD 지표모델</li>
 
+      </ul>
     
 
 
 
 
 
-  <MainChart/>{/* 비트코인 실시간 차트 */}
-  <CoinChart2/>  
+  {/* <MainChart/>비트코인 실시간 차트 
+  <CoinChart2/> */}
   </div>
   </div>
   );

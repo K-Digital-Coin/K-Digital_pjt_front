@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { useFetchMarketCode } from "use-upbit-api";
-import { marketCodesState } from "../../components/atom"
-import CoinDeatils from "../../components/CoinDetails"
-import CoinSelector from "../../components/CoinSelector"
+import { marketCodesState } from "../../components/trading/atom"
+import CoinDetails from "../../components/trading/CoinDetails";
+import CoinSelector from "../../components/trading/CoinSelector";
 
 const DisplayBoard = styled.main`
   width: 1250px;
@@ -52,7 +52,7 @@ function TotalExample() {
   return (
     <div className="grid grid-rows-3 grid-flow-col gap-4 text-black h-screen">
       <CoinSelector />
-      <CoinDeatils/>
+      <CoinDetails/>
 
     </div>
   );

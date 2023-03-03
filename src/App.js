@@ -1,5 +1,5 @@
 
-import CoinChart from "./pages/chart/CoinChart";
+import CoinChart from "./pages/list/ChartList";
 import Navbar from "./components/nav/Navbar";
 import LogIn from "./pages/signIn/LogIn";
 import SignUp from "./pages/signUp/SignUp";
