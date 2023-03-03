@@ -1,10 +1,10 @@
-import "./App.css";
-import CoinChart from "./chart/CoinChart";
-import Navbar from "./components/Navbar";
+
+import CoinChart from "./pages/chart/CoinChart";
+import Navbar from "./components/nav/Navbar";
 import LogIn from "./pages/signIn/LogIn";
 import SignUp from "./pages/signUp/SignUp";
 import Home from "./pages/Home";
-import Trading from "./trading/Trading";
+import Trading from "./pages/trading/Trading";
 import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
