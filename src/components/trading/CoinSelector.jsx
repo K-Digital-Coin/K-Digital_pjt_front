@@ -16,7 +16,8 @@ const convertMillonWon = (value) => {
 };
 
 const CoinListBox = styled.div`
-  width : 600px;
+  width : 100%;
+  min-width: 400px ;
   height: 800px;
   margin: 5px;
   color: white;

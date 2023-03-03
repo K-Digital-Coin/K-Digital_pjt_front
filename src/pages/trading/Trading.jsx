@@ -52,7 +52,7 @@ function TotalExample() {
   }, [fetchedMC]);
 
   return (<>
-    <div className="grid grid-rows-3 grid-flow-col  text-black h-screen">
+    {/* <div className="grid grid-rows-3 grid-flow-col  text-black max-h-screen">
       <div className="row-span-3">
       <CoinSelector />
       </div>
@@ -61,9 +61,18 @@ function TotalExample() {
       <MainChart/>
       <IndicatorChart/>
       </div>
-    </div>
+    </div> */}
 
-      
+    <div className="flex flex-row  text-black max-h-screen">
+      <div className="basis-1/4">
+      <CoinSelector />
+      </div>
+      <div className="basis-3/4">
+      <CoinDetails/>
+      <MainChart/>
+      <IndicatorChart/>
+      </div>
+    </div>
     </>
   );
 }

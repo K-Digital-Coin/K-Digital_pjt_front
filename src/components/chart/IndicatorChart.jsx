@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import ApexCharts from 'apexcharts';
-import IndicatorChart2 from '../../components/chart/IndicatorChart2'
 
 const CircleChart = () => {
   
@@ -70,7 +69,8 @@ const CircleChart = () => {
 
 
 
-  return (<>
+  return (
+    <>
     <div className='flex w-2/4'>
     <div className='' ref={chartRef}></div>
 

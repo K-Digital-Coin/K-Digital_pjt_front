@@ -153,6 +153,7 @@ const MainChart = () => {
           options={options}
           series={series}
           height={500}
+          width={1500}
           className="text-blue-400 z-10"
         />
       </div>
