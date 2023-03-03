@@ -63,7 +63,7 @@ function TotalExample() {
       </div>
     </div> */}
 
-    <div className="flex flex-row  text-black max-h-screen">
+    <div className="flex flex-row text-black max-h-screen">
       <div className="basis-1/4">
       <CoinSelector />
       </div>

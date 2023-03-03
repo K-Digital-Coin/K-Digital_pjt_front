@@ -93,6 +93,12 @@ const CoinBoxName = styled.div`
 
 const CoinBoxPrice = styled.div`
   font-weight: 600;
+  border: ${(props)=>{
+    if(props.changeType === "RISE" || "FALL"){
+      return "border solid 2px red"
+    } 
+    else return
+  }};
   color: ${(props) => {
     switch (props.changeType) {
       case "RISE":
@@ -108,6 +114,12 @@ const CoinBoxPrice = styled.div`
 `;
 
 const CoinBoxChange = styled.div`
+  border: ${(props)=>{
+    if(props.changeType === "RISE" || "FALL"){
+      return "border solid 2px red"
+    }
+    else return
+  }};
   color: ${(props) => {
     switch (props.changeType) {
       case "RISE":
