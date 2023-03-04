@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
-import client from "../../config/axiosConfig";
 
 // 기존 차트 버젼
-const MainChart = () => {
-  const [historyCoins, setHistoryCoins] = useState([]);
-  const [currentCoins, setCurrentCoins] = useState([]);
-  const [predictCoins, setPredictCoins] = useState([]);
-  
-  
+const MainChart = ({ cNumber, hCoins, cCoins, pCoins }) => {
+  const chartNumber = cNumber;
+  const historyCoins = hCoins;
+  const currentCoins = cCoins;
+  const predictCoins = pCoins;
+ console.log(historyCoins)
   const [options, setOptions] = useState({
     title: {
       text: "비트코인 차트",
@@ -22,14 +21,9 @@ const MainChart = () => {
       type: "datetime",
       tickAmount: 10, // x축 눈금 개수
       labels: {
-        datetimeUTC: false, // UTC 시간이 아닌 로컬 시간을 사용하도록 설정
-        format: "yyyy-MM-dd HH:mm", // format 바꾸기
+        datetimeUTC: true, // UTC 시간이 아닌 로컬 시간을 사용하도록 설정
+        format: "yyyy-MM-dd HH:mm:ss", // format 바꾸기
       },
-      // yaxis : {
-      //   tooltip: {
-      //     enabled: true,
-      //     }
-      // }
     },
     tooltip: {
       enabled: true,
@@ -37,8 +31,44 @@ const MainChart = () => {
       x: {
         format: "MM-dd HH:mm",
       },
-      y : {
-      } 
+      y: {
+        formatter: function (val, { seriesIndex, dataPointIndex, w }) {
+          if (seriesIndex === 0) {
+            // 캔들스틱 데이터인 경우
+            const item = w.config.series[seriesIndex].data[dataPointIndex];
+            const tooltipContent = `
+              <div>시가: ${item.openingPrice} KRW</div>
+              <div>고가: ${item.highPrice} KRW</div>
+              <div>저가: ${item.lowPrice} KRW</div>
+              <div>종가: ${item.tradePrice} KRW</div>
+            `;
+            return tooltipContent;
+          } else {
+            // 라인 데이터인 경우
+            return val + "KRW";
+          }
+        },
+      },
+    },
+    annotations: {
+      xaxis: [
+        {
+          x: new Date("2023-02-18 15:00:00").getTime(),
+          borderColor: "#999",
+          borderWidth: 1,
+          label: {
+            text: "과거시세",
+            orientation: 'horizontal',
+            offsetY : 10,
+            offsetX : -12,
+            style: {
+              color: "#fff",
+              background: "#cc0707",
+            },
+          
+          },
+        },
+      ],
     },
   });
 
@@ -60,60 +90,6 @@ const MainChart = () => {
     },
   ]);
 
-  let socket;
-
-  const clear = () => {
-    setHistoryCoins([...historyCoins.slice(0, 100)]);
-    setCurrentCoins([]);
-    setPredictCoins([]);
-  };
-
-  const predict = () => {
-    try {
-      if (socket) {
-        socket.close();
-      }
-      socket = new WebSocket("ws://localhost:8080/coin");
-      socket.onopen = () => {
-        console.log("WebSocket Open");
-      };
-      socket.onmessage = (msg) => {
-        const data = JSON.parse(msg.data);
-        const currentData = {
-          x: new Date(data[0].candleDateTimeKst),
-          y: parseFloat(data[0].tradePrice),
-        };
-        const predictData = {
-          x: new Date(data[1].dateTime),
-          y: Math.round(data[1].price),
-          
-        };
-        console.log(parseFloat(data[1].price))
-        setCurrentCoins((prev) => [...prev, currentData]);
-        setPredictCoins((prev) => [...prev, predictData]);
-      };
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getHistoryCoins = async () => {
-    try {
-      const historyResponse = await client.get("/api/historyCoins");
-      const historyData = historyResponse.data.data.list.map((item) => ({
-        x: new Date(item.candleDateTimeKst),
-        y: [item.openingPrice, item.highPrice, item.lowPrice, item.tradePrice],
-      }));
-      setHistoryCoins([...historyCoins, ...historyData]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getHistoryCoins();
-  }, []);
-
   useEffect(() => {
     setSeries([
       {
@@ -132,25 +108,11 @@ const MainChart = () => {
         data: predictCoins,
       },
     ]);
-  }, [historyCoins, currentCoins]);
+  }, [historyCoins, currentCoins, chartNumber]);
 
   return (
     <>
       <div className="relative max-w-full">
-        <button
-          className="absolute z-20 flex items-center right-20 mr-36
-        bg-blue-900 hover:bg-blue-300 rounded border-spacing-2"
-          onClick={() => clear()}
-        >
-          초기화
-        </button>
-        <button
-          className="absolute z-20 flex items-center right-0 mr-36
-        bg-blue-900 hover:bg-blue-300 rounded border-spacing-2"
-          onClick={() => predict()}
-        >
-          예측 시작
-        </button>
         <ApexChart
           options={options}
           series={series}

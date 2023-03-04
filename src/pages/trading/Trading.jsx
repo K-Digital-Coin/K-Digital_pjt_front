@@ -1,51 +1,21 @@
-import { useEffect } from "react";
+
+import React,{ useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import styled from "styled-components";
 import { useFetchMarketCode } from "use-upbit-api";
-import IndicatorChart from "../../components/chart/IndicatorChart";
-import IndicatorChart2 from "../../components/chart/IndicatorChart2";
-import MainChart from "../../components/chart/MainChart";
-import { marketCodesState } from "../../components/trading/atom"
+import { marketCodesState } from "../../components/trading/atom";
 import CoinDetails from "../../components/trading/CoinDetails";
 import CoinSelector from "../../components/trading/CoinSelector";
-import ChartList from "../../pages/list/ChartList"
+import { useNavigate, useParams } from "react-router";
+import Charts from "../../components/chart/Charts";
 
-const DisplayBoard = styled.main`
-  width: 1250px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 400px 1000px;
-  background-color: whitesmoke;
 
-  font-family: Arial, Helvetica, sans-serif;
-
-  *::-webkit-scrollbar,
-  *::-webkit-scrollbar-thumb {
-    width: 0px;
-  }
-
-  *::-webkit-scrollbar-thumb {
-  }
-  *:hover::-webkit-scrollbar,
-  *:hover::-webkit-scrollbar-thumb {
-    width: 26px;
-    border-radius: 13px;
-    background-clip: padding-box;
-    border: 12px solid transparent;
-    color: grey;
-  }
-
-  *:hover::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 0 10px;
-  }
-
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-`;
-
-function TotalExample() {
-  const {isLoading, marketCodes: fetchedMC } = useFetchMarketCode();
+function Trading () {
+  const { isLoading, marketCodes: fetchedMC } = useFetchMarketCode();
   const [marketCodes, setMarketCodes] = useRecoilState(marketCodesState);
-
+  const [chartNumber, setchartNumber] = useState("");
+  const [targetNumber, setTargetNumber] = useState("")
+  const [clickBtn , setClickBtn] = useState(0)
+  
   useEffect(() => {
     const MarketCodes_KRW = fetchedMC.filter((code) =>
       code.market.includes("KRW")
@@ -53,33 +23,51 @@ function TotalExample() {
     setMarketCodes(MarketCodes_KRW);
   }, [fetchedMC]);
 
-  return (<>
-    {/* <div className="grid grid-rows-3 grid-flow-col  text-black max-h-screen">
-      <div className="row-span-3">
-      <CoinSelector />
-      </div>
-      <div className="col-span-2 h-[200px] w-full">
-      <CoinDetails/>
-      <MainChart/>
-      <IndicatorChart/>
-      </div>
-    </div> */}
 
-    <div className="flex flex-row text-black h-screen">
-      <div className="basis-1/4 p-5">
-      <CoinSelector />
+  return (
+    <>
+      <div className="flex flex-row text-black h-screen">
+        <div className="basis-1/4 p-5">
+          <CoinSelector />
+        </div>
+        <div className="basis-3/4 p-5 pr-10">
+          <div className="text-white flex justify-center">
+            <div>
+              <ul className="flex space-x-14">
+                <li onClick={(e) =>{
+                  setchartNumber(1)
+                  setClickBtn(1)
+                  setTargetNumber(chartNumber)
+                }}
+                 className={`${clickBtn===1 ? "border-b-2 border-red-500" : ""}`}>Ma 지표모델</li>
+                <li onClick={() =>{
+                  setchartNumber(2)
+                  setClickBtn(2)
+                  setTargetNumber(chartNumber)}}
+                  className={`${clickBtn===2 ? "border-b-2 border-blue-500" : ""}`}>BBP 지표모델</li>
+                <li onClick={() =>{ 
+                  setchartNumber(3)
+                  setClickBtn(3)
+                  setTargetNumber(chartNumber)}}
+                  className={`${clickBtn===3 ? "border-b-2 border-green-500" : ""}`}>BBC 지표모델</li>
+                <li onClick={() =>{
+                  setchartNumber(4)
+                  setClickBtn(4)
+                  setTargetNumber(chartNumber)}}
+                  className={`${clickBtn===4 ? "border-b-2 border-yellow-500" : ""}`}>BBM 지표모델</li>
+                <li onClick={() =>{ 
+                  setchartNumber(5)
+                  setClickBtn(5)
+                  setTargetNumber(chartNumber)}}
+                  className={`${clickBtn===5 ? "border-b-2 border-gray-500" : ""}`}>MACD 지표모델</li>
+              </ul>
+            </div>
+          </div>
+          <CoinDetails />
+          <Charts chartNumber={chartNumber} targetNumber={targetNumber} />
+        </div>
       </div>
-      <div className="basis-3/4 p-5 pr-10">
-      <CoinDetails/>
-      <MainChart/>
-      <ChartList/>
-      <div className="flex">
-      <IndicatorChart/>
-      <IndicatorChart2/>
-      </div>
-      </div>
-    </div>
     </>
   );
 }
-export default TotalExample;
+export default Trading;

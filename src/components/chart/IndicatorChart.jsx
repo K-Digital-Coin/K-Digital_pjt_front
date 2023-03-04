@@ -1,87 +1,53 @@
-import React, { useEffect, useRef } from 'react';
-import ApexCharts from 'apexcharts';
+import React, { useEffect, useRef, useState } from "react";
+import ApexChart from "react-apexcharts";
 
-const IndicatorChart = () => {
-  
-  
-  const chartRef = useRef(null);
-
-  useEffect(() => {
-    const optionsCircle = {
-      chart: {
-        type: 'radialBar',
-        height: 400,
-        offsetY: -30,
-        offsetX: 20,
-      },
-      plotOptions: {
-        radialBar: {
-          size: undefined,
-          inverseOrder: false,
-          hollow: {
-            margin: 5,
-            size: '60%',
-            background: 'transparent',
-          },
-          track: {
+const IndicatorChart = ({indiNumber}) => {
+  const [options, setOptions] = useState({
+    // colors: ["#20E647"],
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          margin: 15,
+          size: "70%",
+        },
+        fill : {
+          type : 'gradient'
+        },
+        dataLabels: {
+          showOn: "always",
+          name: {
+            offsetY: -10,
             show: true,
-            background: '#40475D',
-            strokeWidth: '10%',
-            opacity: 1,
-            margin: 2, // margin is in pixels
+            color: "white",
+            fontSize: "20px",
+          },
+          value: {
+            color: "white",
+            fontSize: "20px",
+            show: true,
           },
         },
       },
-      series: [71, 63],
-      labels: ['정확도', '예측도'],
-      legend: {
-        show: true,
-        position: 'left',
-        offsetX: -30,
-        offsetY: 10,
-        formatter: function (val, opts) {
-          return val + ' - ' + opts.w.globals.series[opts.seriesIndex] + '%';
-        },
-      },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shade: 'dark',
-          type: 'horizontal',
-          shadeIntensity: 0.5,
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 100],
-        },
-      },
-    };
+    },
+   
+    stroke: {
+      lineCap: "round",
+    },
+    labels: ["Accuracy"],
+  });
 
-
-
-
-
-
-
-
-    const chart = new ApexCharts(chartRef.current, optionsCircle);
-    chart.render();
-
-    return () => {
-      chart.destroy();
-    };
-  }, []);
-
-
-
-
+  const [series, setSeries] = useState([80]);
 
   return (
-    <>
-    <div className='flex'>
-    <div className='' ref={chartRef}></div>
+    <div className="flex">
+      <ApexChart
+        options={options}
+        series={series}
+        type="radialBar"
+        height={200}
+      />
     </div>
-    </>);
+  );
 };
 
 export default IndicatorChart;

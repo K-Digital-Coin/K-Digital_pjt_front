@@ -7,7 +7,6 @@ import {
   selectedCoinInfoState,
   selectedCoinState,
 } from "./atom";
-import CoinDetails from "./CoinDetails";
 
 const convertMillonWon = (value) => {
   const MILLION = 1000000;
@@ -18,7 +17,7 @@ const convertMillonWon = (value) => {
 const CoinListBox = styled.div`
   width : 100%;
   min-width: 400px ;
-  height: 800px;
+  height: 900px;
   margin: 5px;
   color: white;
   background-color: black;
@@ -36,7 +35,7 @@ const CoinBoxHeader = styled.div`
   display: grid;
   grid-template-columns: 0.5fr 0.5fr 0.5fr 0.5fr;
   border-bottom: 0.5px solid lightgrey;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   div {
     display: flex;
@@ -50,7 +49,7 @@ const CoinBox = styled.div`
   display: grid;
   grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
   border-bottom: 0.5px solid lightgrey;
-  font-size: 12px;
+  font-size: 13px;
   padding-left: 5px;
   padding-right: 5px;
   cursor: pointer;
@@ -83,7 +82,7 @@ const CoinBox = styled.div`
 
 const CoinBoxName = styled.div`
   font-weight: 600;
-  font-size: 11px;
+  font-size: 13px;
 
   div:nth-child(2) {
     color: beige;
@@ -94,12 +93,12 @@ const CoinBoxName = styled.div`
 
 const CoinBoxPrice = styled.div`
   font-weight: 600;
-  border: ${(props)=>{
+  /* border : ${(props)=>{
     if(props.changeType === "RISE" || "FALL"){
-      return "border solid 2px red"
+      return "solid 1px red"
     } 
     else return
-  }};
+  }}; */
   color: ${(props) => {
     switch (props.changeType) {
       case "RISE":
@@ -115,12 +114,12 @@ const CoinBoxPrice = styled.div`
 `;
 
 const CoinBoxChange = styled.div`
-  border: ${(props)=>{
+  /* border: ${(props)=>{
     if(props.changeType === "RISE" || "FALL"){
-      return "border solid 2px red"
+      return "1px solid red"
     }
     else return
-  }};
+  }}; */
   color: ${(props) => {
     switch (props.changeType) {
       case "RISE":

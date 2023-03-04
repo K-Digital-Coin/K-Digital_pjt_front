@@ -1,5 +1,4 @@
 
-import ChartList from "./pages/list/ChartList";
 import Navbar from "./components/nav/Navbar";
 import LogIn from "./pages/signIn/LogIn";
 import SignUp from "./pages/signUp/SignUp";
@@ -13,15 +12,13 @@ import { RecoilRoot } from "recoil";
 
 function App() {
   return (
-    
             <div className="bg-black text-white">
               <Navbar />
               <Routes> 
                 <Route path="/" element={<Home />} />
                 <Route path="/signUp" element={<SignUp />} />
                 <Route path="/logIn" element={<LogIn />} />
-                <Route path="/trading" element={<RecoilRoot><Trading /></RecoilRoot>} />
-                <Route path="/chartList" element={<ChartList />} />
+                <Route path="/trading" element={<RecoilRoot><Trading/></RecoilRoot>}/>
               </Routes> 
             </div>
          

@@ -6,7 +6,7 @@ const Home = () => {
   const navigate = useNavigate()
 
   return (
-    <>
+    <div className='bg-black h-screen'>
       <div className=''>
        <h2 className='flex items-center justify-center mt-32 text-3xl'>
         비트코인 실시간 시세예측 서비스
@@ -29,7 +29,7 @@ const Home = () => {
         className='w-max h-auto'/>
 
       </div>
-    </>
+    </div>
   )
 }
 
