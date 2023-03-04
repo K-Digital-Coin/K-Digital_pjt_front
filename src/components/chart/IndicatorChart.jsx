@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import ApexCharts from 'apexcharts';
 
-const CircleChart = () => {
+const IndicatorChart = () => {
   
   
   const chartRef = useRef(null);
@@ -10,7 +10,7 @@ const CircleChart = () => {
     const optionsCircle = {
       chart: {
         type: 'radialBar',
-        height: 320,
+        height: 400,
         offsetY: -30,
         offsetX: 20,
       },
@@ -57,6 +57,13 @@ const CircleChart = () => {
       },
     };
 
+
+
+
+
+
+
+
     const chart = new ApexCharts(chartRef.current, optionsCircle);
     chart.render();
 
@@ -71,12 +78,10 @@ const CircleChart = () => {
 
   return (
     <>
-    <div className='flex w-2/4'>
+    <div className='flex'>
     <div className='' ref={chartRef}></div>
-
-
     </div>
     </>);
 };
 
-export default CircleChart;
+export default IndicatorChart;

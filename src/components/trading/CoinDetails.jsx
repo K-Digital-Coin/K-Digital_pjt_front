@@ -6,7 +6,6 @@ function CoinDetails() {
   return (
     <>
       <CoinInfo />
-      {/* <RealTimeChart/> */}
       </>
   );
 }

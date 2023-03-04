@@ -3,10 +3,12 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { useFetchMarketCode } from "use-upbit-api";
 import IndicatorChart from "../../components/chart/IndicatorChart";
+import IndicatorChart2 from "../../components/chart/IndicatorChart2";
 import MainChart from "../../components/chart/MainChart";
 import { marketCodesState } from "../../components/trading/atom"
 import CoinDetails from "../../components/trading/CoinDetails";
 import CoinSelector from "../../components/trading/CoinSelector";
+import ChartList from "../../pages/list/ChartList"
 
 const DisplayBoard = styled.main`
   width: 1250px;
@@ -63,14 +65,18 @@ function TotalExample() {
       </div>
     </div> */}
 
-    <div className="flex flex-row text-black max-h-screen">
-      <div className="basis-1/4">
+    <div className="flex flex-row text-black h-screen">
+      <div className="basis-1/4 p-5">
       <CoinSelector />
       </div>
-      <div className="basis-3/4">
+      <div className="basis-3/4 p-5 pr-10">
       <CoinDetails/>
       <MainChart/>
+      <ChartList/>
+      <div className="flex">
       <IndicatorChart/>
+      <IndicatorChart2/>
+      </div>
       </div>
     </div>
     </>

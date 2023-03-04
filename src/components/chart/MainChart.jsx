@@ -85,8 +85,10 @@ const MainChart = () => {
         };
         const predictData = {
           x: new Date(data[1].dateTime),
-          y: data[1].price,
+          y: Math.round(data[1].price),
+          
         };
+        console.log(parseFloat(data[1].price))
         setCurrentCoins((prev) => [...prev, currentData]);
         setPredictCoins((prev) => [...prev, predictData]);
       };
@@ -152,8 +154,7 @@ const MainChart = () => {
         <ApexChart
           options={options}
           series={series}
-          height={500}
-          width={1500}
+          height={400}
           className="text-blue-400 z-10"
         />
       </div>
