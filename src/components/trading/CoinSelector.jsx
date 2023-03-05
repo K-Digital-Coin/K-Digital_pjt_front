@@ -15,15 +15,15 @@ const convertMillonWon = (value) => {
 };
 
 const CoinListBox = styled.div`
-  width : 100%;
-  min-width: 400px ;
-  height: 900px;
+  width: 100%;
+  min-width: 400px;
+  height: 1100px;
   margin: 5px;
   color: white;
   background-color: black;
   overflow: overlay;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  padding-left : 5px;
+  padding-left: 5px;
 `;
 
 const CoinBoxHeader = styled.div`
@@ -93,11 +93,10 @@ const CoinBoxName = styled.div`
 
 const CoinBoxPrice = styled.div`
   font-weight: 600;
-  /* border : ${(props)=>{
-    if(props.changeType === "RISE" || "FALL"){
-      return "solid 1px red"
-    } 
-    else return
+  /* border : ${(props) => {
+    if (props.changeType === "RISE" || "FALL") {
+      return "solid 1px red";
+    } else return;
   }}; */
   color: ${(props) => {
     switch (props.changeType) {
@@ -114,11 +113,10 @@ const CoinBoxPrice = styled.div`
 `;
 
 const CoinBoxChange = styled.div`
-  /* border: ${(props)=>{
-    if(props.changeType === "RISE" || "FALL"){
-      return "1px solid red"
-    }
-    else return
+  /* border: ${(props) => {
+    if (props.changeType === "RISE" || "FALL") {
+      return "1px solid red";
+    } else return;
   }}; */
   color: ${(props) => {
     switch (props.changeType) {
@@ -173,61 +171,63 @@ function CoinSelector() {
 
   return (
     <div className="flex">
-    <CoinListBox>
-      <CoinBoxHeader>
-        <div>코인</div>
-        <div>현재가</div>
-        <div>전일대비</div>
-        <div>거래대금</div>
-      </CoinBoxHeader>
-      {socketData
-        ? socketData.map((data) => {
-            return (
-              <CoinBox
-                key={data.code}
-                id={data.code}
-                onClick={clickCoinHandler}
-                selected={selectedCoin[0].market === data.code}
-              >
-                <CoinBoxName>
-                  <div>
-                    {
-                      marketCodes.filter((code) => code.market === data.code)[0]
-                        .korean_name
-                    }
-                  </div>
-                  <div>
-                    {
-                      marketCodes.filter((code) => code.market === data.code)[0]
-                        .market
-                    }
-                  </div>
-                </CoinBoxName>
-                <CoinBoxPrice changeType={data.change}>
-                  {data.trade_price.toLocaleString("ko-KR")}
-                </CoinBoxPrice>
-                <CoinBoxChange changeType={data.change}>
-                  <CoinBoxChangeRate>
-                    {data.signed_change_rate > 0 ? "+" : null}
-                    {(data.signed_change_rate * 100).toFixed(2)}%
-                  </CoinBoxChangeRate>
-                  <CoinBoxChangePrice>
-                    {data.signed_change_price.toLocaleString("ko-KR")}
-                  </CoinBoxChangePrice>
-                </CoinBoxChange>
-                <CoinBoxVolume>
-                  <div>
-                    {Math.ceil(
-                      convertMillonWon(data.acc_trade_price_24h)
-                    ).toLocaleString("ko-KR")}
-                  </div>
-                  <div>백만</div>
-                </CoinBoxVolume>
-              </CoinBox>
-            );
-          })
-        : null}
-    </CoinListBox>
+      <CoinListBox>
+        <CoinBoxHeader>
+          <div>코인</div>
+          <div>현재가</div>
+          <div>전일대비</div>
+          <div>거래대금</div>
+        </CoinBoxHeader>
+        {socketData
+          ? socketData.map((data) => {
+              return (
+                <CoinBox
+                  key={data.code}
+                  id={data.code}
+                  onClick={clickCoinHandler}
+                  selected={selectedCoin[0].market === data.code}
+                >
+                  <CoinBoxName>
+                    <div>
+                      {
+                        marketCodes.filter(
+                          (code) => code.market === data.code
+                        )[0].korean_name
+                      }
+                    </div>
+                    <div>
+                      {
+                        marketCodes.filter(
+                          (code) => code.market === data.code
+                        )[0].market
+                      }
+                    </div>
+                  </CoinBoxName>
+                  <CoinBoxPrice changeType={data.change}>
+                    {data.trade_price.toLocaleString("ko-KR")}
+                  </CoinBoxPrice>
+                  <CoinBoxChange changeType={data.change}>
+                    <CoinBoxChangeRate>
+                      {data.signed_change_rate > 0 ? "+" : null}
+                      {(data.signed_change_rate * 100).toFixed(2)}%
+                    </CoinBoxChangeRate>
+                    <CoinBoxChangePrice>
+                      {data.signed_change_price.toLocaleString("ko-KR")}
+                    </CoinBoxChangePrice>
+                  </CoinBoxChange>
+                  <CoinBoxVolume>
+                    <div>
+                      {Math.ceil(
+                        convertMillonWon(data.acc_trade_price_24h)
+                      ).toLocaleString("ko-KR")}
+                    </div>
+                    <div>백만</div>
+                  </CoinBoxVolume>
+                </CoinBox>
+              );
+            })
+          : null}
+      </CoinListBox>
     </div>
   );
 }
