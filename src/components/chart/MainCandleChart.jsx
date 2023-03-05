@@ -18,7 +18,7 @@ const MainCandleChart = ({ cNumber, hCoins }) => {
       type: "datetime",
       labels: {
         datetimeUTC: false,
-        format: "yyyy-MM-dd HH:mm",
+        format: "MM-dd HH:mm",
       },
     },
 

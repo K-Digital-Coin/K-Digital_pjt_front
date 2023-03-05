@@ -12,6 +12,7 @@ const Charts = () => {
   const [predictCoins, setPredictCoins] = useState([]);
   const [onPredict, setOnPredict] = useState();
   const [errorPercentage, setErrorPercentage] = useState([]);
+  const [errorSum, setErrorSum] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
 
   const clear = () => {
@@ -20,6 +21,7 @@ const Charts = () => {
     setTradeHistoryCoins([...tradeHistoryCoins.slice(0, 100)]);
     setPredictCoins([]);
     setErrorPercentage([]);
+    setErrorSum(0);
     setAccuracy(0);
   };
 
@@ -54,7 +56,7 @@ const Charts = () => {
         setTradeHistoryCoins((prev) => [...prev, tradeHistoryData]);
         setPredictCoins((prev) => [...prev, predictData]);
         setErrorPercentage((prev) => [...prev, error]);
-        setAccuracy((prev) => prev + 1);
+        setErrorSum((prev) => prev + (1 - Math.abs(error.y)) * 100);
       };
     } catch (error) {
       console.log(error);
@@ -87,6 +89,11 @@ const Charts = () => {
   useEffect(() => {
     clear();
   }, []);
+
+  useEffect(() => {
+    errorPercentage.length !== 0 &&
+      setAccuracy((errorSum / errorPercentage.length).toFixed(2));
+  }, [errorSum]);
 
   return (
     <div>
