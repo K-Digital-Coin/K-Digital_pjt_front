@@ -19,9 +19,22 @@ const MainCandleChart = ({ cNumber, hCoins }) => {
       labels: {
         datetimeUTC: false,
         format: "yyyy-MM-dd HH:mm",
+        style: {
+          fontWeight: "bold",
+          fontSize: "16px"
+        }
       },
     },
-
+    yaxis : {
+      labels :{
+        style : {
+          fontWeight: "bold",
+          fontSize: "16px",
+          fontColor :"white"
+        }
+      }
+      
+    },
     tooltip: {
       enabled: true,
       shared: true,

@@ -5,6 +5,7 @@ import ErrorChart from "../chart/ErrorChart";
 import MainCandleChart from "./MainCandleChart";
 import MainLineChart from "./MainLineChart";
 import client from "../../config/axiosConfig";
+import ListBar from "../nav/Listbar";
 
 const Charts = () => {
   const [historyCoins, setHistoryCoins] = useState([]);
@@ -89,16 +90,18 @@ const Charts = () => {
   }, []);
 
   return (
-    <div>
+    <>
+     <ListBar/>
+     <div className="">
       <button
-        className="absolute z-20 flex items-center right-20 mr-44 text-white
+        className="absolute z-10 flex items-center right-20 mr-44 text-white
         bg-[#1261c4] hover:bg-red-300 rounded border-spacing-2 font-semibold"
         onClick={() => clear()}
       >
         초기화
       </button>
       <button
-        className="absolute z-20 flex items-center right-0 mr-44 text-white
+        className="absolute z-10 flex items-center right-0 mr-44 text-white
         bg-[#0c3887] hover:bg-red-300 rounded border-spacing-2 font-semibold"
         onClick={() => predict()}
       >
@@ -109,12 +112,12 @@ const Charts = () => {
       ) : (
         <MainLineChart hCoins={tradeHistoryCoins} pCoins={predictCoins} />
       )}
-
-      <div className="flex flex-row">
-        <div className="basis-1/4">
-          <AccuracyChart acc={accuracy} />
         </div>
-        <div className="basis-3/4">
+      <div className="flex flex-row">
+        {/* <div className="basis-1/4">
+          <AccuracyChart acc={accuracy} />
+        </div> */}
+        <div className="basis-full">
           <PredictChart
             hCoins={tradeHistoryCoins.slice(100)}
             pCoins={predictCoins}
@@ -122,7 +125,7 @@ const Charts = () => {
           <ErrorChart ePercentage={errorPercentage} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

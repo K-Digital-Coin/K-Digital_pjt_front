@@ -1,220 +1,69 @@
-import { memo, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import styled from "styled-components";
-import { useUpbitWebSocket } from "use-upbit-api";
-import {
-  marketCodesState,
-  selectedCoinInfoState,
-  selectedCoinState,
-} from "../../context/atom";
+import React, { Fragment, useState } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { HiOutlineChevronUpDown } from "react-icons/hi2";
 
-const convertMillonWon = (value) => {
-  const MILLION = 1000000;
-  const extractedValue = value / MILLION;
-  return extractedValue;
-};
-
-const CoinListBox = styled.div`
-  height: 800px;
-  margin: 5px;
-  background-color: white;
-  overflow: overlay;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-`;
-
-const CoinBoxHeader = styled.div`
-  position: -webkit-sticky;
-  position: sticky;
-  top: 1px;
-  background-color: black;
-  color: white;
-  opacity: 0.8;
-  height: 35px;
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
-  border-bottom: 0.5px solid lightgrey;
-  font-size: 12px;
-  font-weight: 600;
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
-const CoinBox = styled.div`
-  height: 45px;
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
-  border-bottom: 0.5px solid lightgrey;
-  font-size: 12px;
-  padding-left: 5px;
-  padding-right: 5px;
-  cursor: pointer;
-  background-color: ${(props) => (props.selected ? "lightgrey" : "inherit")};
-  :hover {
-    background-color: lightgrey;
-  }
-  div {
-    display: flex;
-  }
-  div:nth-child(1) {
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  div:nth-child(2) {
-    justify-content: flex-end;
-    align-items: center;
-  }
-  div:nth-child(3) {
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-  }
-  div:nth-child(4) {
-    justify-content: flex-end;
-    align-items: center;
-  }
-`;
-
-const CoinBoxName = styled.div`
-  font-weight: 600;
-  font-size: 11px;
-
-  div:nth-child(2) {
-    color: gray;
-    font-weight: 400;
-    font-size: 7px;
-  }
-`;
-
-const CoinBoxPrice = styled.div`
-  font-weight: 600;
-  color: ${(props) => {
-    switch (props.changeType) {
-      case "RISE":
-        return "#EF1C1C";
-      case "EVEN":
-        return "#000000";
-      case "FALL":
-        return "#1261C4";
-      default:
-        return "#000000";
-    }
-  }};
-`;
-
-const CoinBoxChange = styled.div`
-  color: ${(props) => {
-    switch (props.changeType) {
-      case "RISE":
-        return "#EF1C1C";
-      case "EVEN":
-        return "#000000";
-      case "FALL":
-        return "#1261C4";
-      default:
-        return "#000000";
-    }
-  }};
-`;
-const CoinBoxChangeRate = styled.div``;
-const CoinBoxChangePrice = styled.div``;
-const CoinBoxVolume = styled.div`
-  font-size: 11px;
-  div:nth-child(2) {
-    color: grey;
-  }
-`;
-
-function CoinSelector() {
-  const marketCodes = useRecoilValue(marketCodesState);
-  const [selectedCoin, setSelectedCoin] = useRecoilState(selectedCoinState);
-  const webSocketOptions = { throttle_time: 400, max_length_queue: 100 };
-  const { socket, isConnected, socketData } = useUpbitWebSocket(
-    marketCodes,
-    "ticker",
-    webSocketOptions
-  );
-  const [selectedCoinInfo, setSelectedCoinInfo] = useRecoilState(
-    selectedCoinInfoState
-  );
-
-  useEffect(() => {
-    if (socketData) {
-      const targetData = socketData.filter(
-        (data) => data.code == selectedCoin[0].market
-      );
-      setSelectedCoinInfo(...targetData);
-    }
-  }, [selectedCoin, socketData]);
-
-  const clickCoinHandler = (evt) => {
-    const currentTarget = marketCodes.filter(
-      (code) => code.market === evt.currentTarget.id
-    );
-    setSelectedCoin(currentTarget);
-  };
-  console.log(socketData)
+const ListBar = () => {
+  const IndicatorList = [
+    { name: "Ma 지표모델" },
+    { name: "BBP 지표모델" },
+    { name: "BBC 지표모델" },
+    { name: "BBM 지표모델" },
+    { name: "MACD 지표모델" },
+  ];
+  const [selected, setSelected] = useState(IndicatorList[0]);
 
   return (
-    <CoinListBox>
-      <CoinBoxHeader>
-        <div>코인</div>
-        <div>현재가</div>
-        <div>전일대비</div>
-        <div>거래대금</div>
-      </CoinBoxHeader>
-      {socketData
-        ? socketData.map((data) => {
-            return (
-              <CoinBox
-                key={data.code}
-                id={data.code}
-                onClick={clickCoinHandler}
-                selected={selectedCoin[0].market === data.code}
-              >
-                <CoinBoxName>
-                  <div>
-                    {
-                      marketCodes.filter((code) => code.market === data.code)[0]
-                        .korean_name
-                    }
-                  </div>
-                  <div>
-                    {
-                      marketCodes.filter((code) => code.market === data.code)[0]
-                        .market
-                    }
-                  </div>
-                </CoinBoxName>
-                <CoinBoxPrice changeType={data.change}>
-                  {data.trade_price.toLocaleString("ko-KR")}
-                </CoinBoxPrice>
-                <CoinBoxChange changeType={data.change}>
-                  <CoinBoxChangeRate>
-                    {data.signed_change_rate > 0 ? "+" : null}
-                    {(data.signed_change_rate * 100).toFixed(2)}%
-                  </CoinBoxChangeRate>
-                  <CoinBoxChangePrice>
-                    {data.signed_change_price.toLocaleString("ko-KR")}
-                  </CoinBoxChangePrice>
-                </CoinBoxChange>
-                <CoinBoxVolume>
-                  <div>
-                    {Math.ceil(
-                      convertMillonWon(data.acc_trade_price_24h)
-                    ).toLocaleString("ko-KR")}
-                  </div>
-                  <div>백만</div>
-                </CoinBoxVolume>
-              </CoinBox>
-            );
-          })
-        : null}
-    </CoinListBox>
+    <div className="z-20 relative">
+      <Listbox value={selected} onChange={setSelected}>
+        <div className="relative mt-1">
+          <Listbox.Button className="relative  cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+            <span className="block truncate">{selected.name}</span>
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <HiOutlineChevronUpDown
+                className="h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {IndicatorList.map((name, nameIdx) => (
+                <Listbox.Option
+                  key={name}
+                  className={({ active }) =>
+                    `relative cursor-default select-none py-2 pl-4 pr-4 ${
+                      active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+                    }`
+                  }
+                  value={name}
+                >
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${
+                          selected ? "font-medium" : "font-normal"
+                        }`}
+                      >
+                        {name.name}
+                      </span>
+                      {selected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"/>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    </div>
   );
-}
+};
 
-export default memo(CoinSelector);
+export default ListBar;

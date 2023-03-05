@@ -19,7 +19,7 @@ function Trading() {
 
   return (
     <>
-      <div className="flex flex-row text-black h-screen">
+      <div className="flex flex-row text-black bg-black">
         <div className="basis-1/4 p-5">
           <CoinSelector />
         </div>
