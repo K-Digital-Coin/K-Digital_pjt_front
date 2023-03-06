@@ -1,7 +1,6 @@
 import axios from "axios";
 import { React, useState } from "react";
 import { useNavigate } from "react-router";
-import jwt_decode from "jwt-decode";
 import client from "../../config/axiosConfig";
 
 const LogInInput = () => {
@@ -9,52 +8,37 @@ const LogInInput = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-
-
   const clickLogin = async () => {
-    
-    if (loginId && password){
-      const result = await axios.post('/api/auth/signIn',{
-        loginId : loginId,
-        password : password
+    const result = await axios
+      .post("/api/auth/signIn", {
+        loginId: loginId,
+        password: password,
       })
-      .then((result)=>{
-        console.log(result)
-        const ACCESS_TOKEN = result.data.data.accessToken
-        const REFRESH_TOKEN = result.data.data.refreshToken
+      .then((result) => {
+        console.log(result);
+        const ACCESS_TOKEN = result.data.data.accessToken;
+        const REFRESH_TOKEN = result.data.data.refreshToken;
         // const decoded = jwt_decode(ACCESS_TOKEN);
-        
+
         // 토큰 localStorage에 저장
-        localStorage.setItem("accessToken", ACCESS_TOKEN)
-        localStorage.setItem('refreshToken', REFRESH_TOKEN)
+        localStorage.setItem("accessToken", ACCESS_TOKEN);
+        localStorage.setItem("refreshToken", REFRESH_TOKEN);
         // console.log(JSON.stringify(decoded))
       })
       // //SessionStorage에 저장
-      .then((result)=>{
-        client
-        .get('api/member/me')
-        .then((result)=>{
-          sessionStorage.setItem('nickname',result.data.data.nickname)
-          alert(`${sessionStorage.getItem('nickname')}님 반갑습니다`)
-        
-          result.data.code === 200 && navigate('/trading')
-        })
+      .then((result) => {
+        client.get("api/member/me").then((result) => {
+          sessionStorage.setItem("nickname", result.data.data.nickname);
+          alert(`${sessionStorage.getItem("nickname")}님 반갑습니다`);
+
+          result.data.code === 200 && navigate("/trading");
+        });
       })
-      
       .catch((err) => {
-        alert(
-          "아이디 또는 비밀번호를 잘못 입력했습니다.", 
-        );
-        console.log(err)
+        console.log(err);
+        alert(err.response.data.message);
       });
-      } else if (!loginId) {
-      alert("아이디를 입력해주세요");
-      return;
-      } else {
-      alert("비밀번호를 입력해주세요");
-      return;
-      }
-};
+  };
 
   return (
     <>

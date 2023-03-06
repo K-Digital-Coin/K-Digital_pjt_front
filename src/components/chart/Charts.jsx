@@ -5,7 +5,7 @@ import ErrorChart from "../chart/ErrorChart";
 import MainCandleChart from "./MainCandleChart";
 import MainLineChart from "./MainLineChart";
 import client from "../../config/axiosConfig";
-import Listbar from "../nav/Listbar";
+import ListBar from "../nav/ListBar";
 
 const Charts = () => {
   const [historyCoins, setHistoryCoins] = useState([]);
@@ -15,7 +15,6 @@ const Charts = () => {
   const [errorPercentage, setErrorPercentage] = useState([]);
   const [accuracy, setAccuracy] = useState(0);
   const [errorSum, setErrorSum] = useState(0);
-
 
   const clear = () => {
     setOnPredict(false);
@@ -95,38 +94,38 @@ const Charts = () => {
   useEffect(() => {
     errorPercentage.length !== 0 &&
       setAccuracy((errorSum / errorPercentage.length).toFixed(2));
-  }, [errorSum])
+  }, [errorSum]);
   return (
     <>
-     <div className="flex-wrap">
-      <button
-        className="absolute z-10 flex items-center right-20 mr-44 text-white
+      <div className="flex-wrap">
+        <button
+          className="absolute z-10 flex items-center right-20 mr-44 text-white
         bg-[#1261c4] hover:bg-red-300 rounded border-spacing-2 font-semibold"
-        onClick={() => clear()}
-      >
-        초기화
-      </button>
-      <button
-        className="absolute z-10 flex items-center right-0 mr-44 text-white
+          onClick={() => clear()}
+        >
+          초기화
+        </button>
+        <button
+          className="absolute z-10 flex items-center right-0 mr-44 text-white
         bg-[#0c3887] hover:bg-red-300 rounded border-spacing-2 font-semibold"
-        onClick={() => predict()}
-      >
-        예측 시작
-      </button>
-      <div className="flex flex-row">
-        <div className="basis-1/5">
-        <Listbar/>
-          <AccuracyChart acc={accuracy} />
+          onClick={() => predict()}
+        >
+          예측 시작
+        </button>
+        <div className="flex flex-row">
+          <div className="basis-1/5">
+            <ListBar />
+            <AccuracyChart acc={accuracy} />
+          </div>
+          <div className="basis-4/5">
+            {!onPredict ? (
+              <MainCandleChart hCoins={historyCoins} />
+            ) : (
+              <MainLineChart hCoins={tradeHistoryCoins} pCoins={predictCoins} />
+            )}
+          </div>
         </div>
-        <div className="basis-4/5">
-      {!onPredict ? (
-        <MainCandleChart hCoins={historyCoins} />
-      ) : (
-        <MainLineChart hCoins={tradeHistoryCoins} pCoins={predictCoins} />
-      )}  
-      </div>
-        </div>
-     
+
         <div className="basis-full">
           <PredictChart
             hCoins={tradeHistoryCoins.slice(100)}
