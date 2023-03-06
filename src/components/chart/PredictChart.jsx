@@ -9,11 +9,11 @@ const PredictChart = ({ hCoins, pCoins }) => {
     title: {
       text: "비트코인 예측차트",
       align: "Center",
-      style :{
-        fontSize :"25px",
-        fontWeight : "bold",
-        color : "blue"
-      }
+      style: {
+        fontSize: "25px",
+        fontWeight: "bold",
+        color: "blue",
+      },
     },
     stroke: {
       width: [2, 2],
@@ -23,25 +23,25 @@ const PredictChart = ({ hCoins, pCoins }) => {
       type: "datetime",
       labels: {
         datetimeUTC: false,
-        format: "yyyy-MM-dd HH:mm",
+        format: "MM-dd HH:mm",
         style: {
           fontWeight: "bold",
           fontSize: "14px",
-          colors : "#ffffff"
-        }
+          colors: "#ffffff",
+        },
       },
     },
-    yaxis :{
-      labels :{
-        formatter: function(val) {
-          return val.toLocaleString({minimumFractionDigits: 2});
+    yaxis: {
+      labels: {
+        formatter: function (val) {
+          return val.toLocaleString({ minimumFractionDigits: 2 });
         },
         style: {
-         fontWeight: "bold",
-         fontSize: "13px",
-         colors : "#ffffff"
-       }
-     }
+          fontWeight: "bold",
+          fontSize: "13px",
+          colors: "#ffffff",
+        },
+      },
     },
     tooltip: {
       enabled: true,

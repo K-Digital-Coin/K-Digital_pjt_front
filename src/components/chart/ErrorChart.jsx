@@ -8,37 +8,37 @@ const ErrorChart = ({ ePercentage }) => {
     stroke: {
       width: 1,
     },
-    title :{
-      text : "실제가격 - 예측가격 오차",
+    title: {
+      text: "실제가격 - 예측가격 오차",
       align: "Center",
-      style :{
-        fontSize :"25px",
-        fontWeight : "bold",
-        color : "red"
-      }
+      style: {
+        fontSize: "25px",
+        fontWeight: "bold",
+        color: "red",
+      },
     },
     xaxis: {
       type: "datetime",
       labels: {
         datetimeUTC: false,
-        format: "yyyy-MM-dd HH:mm",
+        format: "MM-dd HH:mm",
         style: {
           fontWeight: "bold",
           fontSize: "14px",
-          colors : "#ffffff"
-        }
+          colors: "#ffffff",
+        },
       },
     },
     yaxis: {
       min: -1,
       max: 1,
-      labels :{
-         style: {
+      labels: {
+        style: {
           fontWeight: "bold",
           fontSize: "13px",
-          colors : "#ffffff"
-        }
-      }
+          colors: "#ffffff",
+        },
+      },
     },
     markers: {
       size: 3,
