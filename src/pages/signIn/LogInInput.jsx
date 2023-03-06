@@ -22,7 +22,7 @@ const LogInInput = () => {
         console.log(result)
         const ACCESS_TOKEN = result.data.data.accessToken
         const REFRESH_TOKEN = result.data.data.refreshToken
-        const decoded = jwt_decode(ACCESS_TOKEN);
+        // const decoded = jwt_decode(ACCESS_TOKEN);
         
         // 토큰 localStorage에 저장
         localStorage.setItem("accessToken", ACCESS_TOKEN)
