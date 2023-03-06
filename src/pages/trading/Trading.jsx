@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useFetchMarketCode } from "use-upbit-api";
 import { marketCodesState } from "../../components/trading/atom";
-import CoinDetails from "../../components/trading/CoinDetails";
 import CoinSelector from "../../components/trading/CoinSelector";
 import Charts from "../../components/chart/Charts";
+import CoinInfo from "../../components/trading/CoinInfo";
 
 function Trading() {
   const { isLoading, marketCodes: fetchedMC } = useFetchMarketCode();
@@ -24,7 +24,7 @@ function Trading() {
           <CoinSelector />
         </div>
         <div className="basis-3/4 p-5 pr-10">
-          <CoinDetails />
+          <CoinInfo />
           <Charts />
         </div>
       </div>
