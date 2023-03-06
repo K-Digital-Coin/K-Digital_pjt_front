@@ -43,7 +43,7 @@ const AccuracyChart = ({ acc }) => {
   }, [accuracy]);
 
   return (
-    <div className="flex">
+    <div className="flex mt-12">
       <ApexChart
         options={options}
         series={series}

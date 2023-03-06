@@ -8,6 +8,10 @@ const ErrorChart = ({ ePercentage }) => {
     stroke: {
       width: 1,
     },
+    title :{
+      text : "오차 차트",
+      align: "Center",
+    },
     xaxis: {
       type: "datetime",
       labels: {

@@ -8,6 +8,7 @@ const CoinInfoBox = styled.div`
   background-color: black;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   color: white;
+  font-weight: bold;
 `;
 
 const NameInfoArea = styled.div`
@@ -50,7 +51,7 @@ const TradePriceInfoArea = styled.div`
 `;
 const TradePriceInfoBox = styled.div`
   grid-column: 1 / span 2;
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 600;
   display: flex;
   gap: 2px;
@@ -70,7 +71,7 @@ const ChangeRateInfoBox = styled.div`
   }
 `;
 const ChangePriceInfoBox = styled.div`
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
 `;
 const PriceLogInfoArea = styled.div`
@@ -85,7 +86,7 @@ const PriceLogInfoBox = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid lightgray;
-  font-size: 12px;
+  font-size: 15px;
 `;
 const CategoriHeaderBox = styled.div``;
 

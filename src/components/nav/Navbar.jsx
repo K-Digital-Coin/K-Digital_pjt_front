@@ -39,7 +39,7 @@ const Navbar = () => {
           className="border-1 rounded-md border-[#232530] bg-transparent uppercase hover:scale-110 hover:text-white hover:bg-purple-500 text-xl">
           Trading
           </button> */}
-          <button className="border-1 rounded-md border-[#232530] bg-transparent uppercase hover:scale-110 hover:text-white hover:bg-blue-500 text-xl"
+          <button className="border-1 rounded-md border-[#232530] bg-transparent  hover:scale-110 hover:text-white hover:bg-blue-500 text-xl"
                 onClick={()=>{navigate('/trading')
                               outLog()
                 }}>

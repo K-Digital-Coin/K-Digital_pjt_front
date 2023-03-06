@@ -5,7 +5,7 @@ import ErrorChart from "../chart/ErrorChart";
 import MainCandleChart from "./MainCandleChart";
 import MainLineChart from "./MainLineChart";
 import client from "../../config/axiosConfig";
-import ListBar from "../nav/Listbar";
+import Listbar from "../nav/Listbar";
 
 const Charts = () => {
   const [historyCoins, setHistoryCoins] = useState([]);
@@ -14,6 +14,8 @@ const Charts = () => {
   const [onPredict, setOnPredict] = useState();
   const [errorPercentage, setErrorPercentage] = useState([]);
   const [accuracy, setAccuracy] = useState(0);
+  const [errorSum, setErrorSum] = useState(0);
+
 
   const clear = () => {
     setOnPredict(false);
@@ -22,6 +24,7 @@ const Charts = () => {
     setPredictCoins([]);
     setErrorPercentage([]);
     setAccuracy(0);
+    setErrorSum(0);
   };
 
   const predict = () => {
@@ -55,7 +58,7 @@ const Charts = () => {
         setTradeHistoryCoins((prev) => [...prev, tradeHistoryData]);
         setPredictCoins((prev) => [...prev, predictData]);
         setErrorPercentage((prev) => [...prev, error]);
-        setAccuracy((prev) => prev + 1);
+        setErrorSum((prev) => prev + (1 - Math.abs(error.y)) * 100);
       };
     } catch (error) {
       console.log(error);
@@ -89,9 +92,13 @@ const Charts = () => {
     clear();
   }, []);
 
+  useEffect(() => {
+    errorPercentage.length !== 0 &&
+      setAccuracy((errorSum / errorPercentage.length).toFixed(2));
+  }, [errorSum])
   return (
     <>
-     <ListBar/>
+    
      <div className="">
       <button
         className="absolute z-10 flex items-center right-20 mr-44 text-white
@@ -107,16 +114,20 @@ const Charts = () => {
       >
         예측 시작
       </button>
+      <div className="flex flex-row">
+        <div className="basis-1/4">
+        <Listbar/>
+          <AccuracyChart acc={accuracy} />
+        </div>
+        <div className="basis-3/4">
       {!onPredict ? (
         <MainCandleChart hCoins={historyCoins} />
       ) : (
         <MainLineChart hCoins={tradeHistoryCoins} pCoins={predictCoins} />
-      )}
+      )}  
+      </div>
         </div>
-      <div className="flex flex-row">
-        {/* <div className="basis-1/4">
-          <AccuracyChart acc={accuracy} />
-        </div> */}
+     
         <div className="basis-full">
           <PredictChart
             hCoins={tradeHistoryCoins.slice(100)}
