@@ -98,8 +98,7 @@ const Charts = () => {
   }, [errorSum])
   return (
     <>
-    
-     <div className="">
+     <div className="flex-wrap">
       <button
         className="absolute z-10 flex items-center right-20 mr-44 text-white
         bg-[#1261c4] hover:bg-red-300 rounded border-spacing-2 font-semibold"
@@ -115,11 +114,11 @@ const Charts = () => {
         예측 시작
       </button>
       <div className="flex flex-row">
-        <div className="basis-1/4">
+        <div className="basis-1/5">
         <Listbar/>
           <AccuracyChart acc={accuracy} />
         </div>
-        <div className="basis-3/4">
+        <div className="basis-4/5">
       {!onPredict ? (
         <MainCandleChart hCoins={historyCoins} />
       ) : (

@@ -5,10 +5,17 @@ import ApexChart from "react-apexcharts";
 const MainCandleChart = ({ cNumber, hCoins }) => {
   const chartNumber = cNumber;
   const historyCoins = hCoins;
+
+  
   const [options, setOptions] = useState({
     title: {
       text: "비트코인 차트",
       align: "Center",
+      style :{
+        fontSize :"25px",
+        fontWeight : "bold",
+        color : "white"
+      }
     },
     stroke: {
       width: 1,
@@ -21,19 +28,22 @@ const MainCandleChart = ({ cNumber, hCoins }) => {
         format: "yyyy-MM-dd HH:mm",
         style: {
           fontWeight: "bold",
-          fontSize: "16px"
+          fontSize: "16px",
+          colors : "#ffffff"
         }
       },
     },
     yaxis : {
       labels :{
+        formatter: function(val) {
+          return val.toLocaleString({minimumFractionDigits: 2});
+        },
         style : {
           fontWeight: "bold",
-          fontSize: "16px",
-          fontColor :"white"
-        }
-      }
-      
+          fontSize: "14px",
+          colors : "#ffffff"
+        },
+      },
     },
     tooltip: {
       enabled: true,

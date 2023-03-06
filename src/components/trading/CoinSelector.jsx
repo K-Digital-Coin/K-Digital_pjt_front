@@ -145,7 +145,7 @@ function CoinSelector() {
   const [selectedCoinInfo, setSelectedCoinInfo] = useRecoilState(
     selectedCoinInfoState
   );
-  const [borderVisible, setBorderVisible] = useState(false); // 변경
+  const [borderVisible, setBorderVisible] = useState(false); 
 
   useEffect(() => {
     if (socketData) {
@@ -158,7 +158,7 @@ function CoinSelector() {
         setBorderVisible(false); 
       }, 1000);
     }
-  }, [selectedCoin, socketData, borderVisible]);
+  }, [selectedCoin, socketData]);
 
   const clickCoinHandler = (evt) => {
     const currentTarget = marketCodes.filter(
@@ -167,8 +167,7 @@ function CoinSelector() {
     setSelectedCoin(currentTarget);
   };
 
-  return (
-    
+  return (    
     <div className="flex">
       <CoinListBox>
         <CoinBoxHeader>
@@ -205,7 +204,6 @@ function CoinSelector() {
                   <CoinBoxPrice changeType={data.change}>
                     {data.trade_price.toLocaleString("ko-KR")}
                   </CoinBoxPrice>
-                  <div className={`${borderVisible === true ? "border-b-red-500" : null}`}>
                   <CoinBoxChange changeType={data.change}>
                     <CoinBoxChangeRate>
                       {data.signed_change_rate > 0 ? "+" : null}
@@ -214,8 +212,7 @@ function CoinSelector() {
                     <CoinBoxChangePrice>
                       {data.signed_change_price.toLocaleString("ko-KR")}
                     </CoinBoxChangePrice>
-                  </CoinBoxChange>
-                  </div>
+                      </CoinBoxChange>
                   <CoinBoxVolume>
                     <div>
                       {Math.ceil(
@@ -234,3 +231,5 @@ function CoinSelector() {
 }
 
 export default memo(CoinSelector);
+
+{/* <div className={`${borderVisible ? "border-b-red-500" : null}`}> */}

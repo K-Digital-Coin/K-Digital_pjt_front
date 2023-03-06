@@ -9,19 +9,36 @@ const ErrorChart = ({ ePercentage }) => {
       width: 1,
     },
     title :{
-      text : "오차 차트",
+      text : "실제가격 - 예측가격 오차",
       align: "Center",
+      style :{
+        fontSize :"25px",
+        fontWeight : "bold",
+        color : "red"
+      }
     },
     xaxis: {
       type: "datetime",
       labels: {
         datetimeUTC: false,
         format: "yyyy-MM-dd HH:mm",
+        style: {
+          fontWeight: "bold",
+          fontSize: "14px",
+          colors : "#ffffff"
+        }
       },
     },
     yaxis: {
       min: -1,
       max: 1,
+      labels :{
+         style: {
+          fontWeight: "bold",
+          fontSize: "13px",
+          colors : "#ffffff"
+        }
+      }
     },
     markers: {
       size: 3,
