@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from "react";
-import IndicatorChart from "../../components/chart/IndicatorChart";
-import IndicatorChart2 from "../../components/chart/IndicatorChart2";
-import MainChart from "../../components/chart/MainChart";
+import AccuracyChart from "./AccuracyChart";
+import PredictChart from "../../components/chart/PredictChart";
+import ErrorChart from "../chart/ErrorChart";
+import MainCandleChart from "./MainCandleChart";
+import MainLineChart from "./MainLineChart";
 import client from "../../config/axiosConfig";
+import Listbar from "../nav/Listbar";
 
-const Charts = ({ chartNumber, targetNumber }) => {
-  const number = chartNumber;
-  const tNumber = targetNumber;
+const Charts = () => {
   const [historyCoins, setHistoryCoins] = useState([]);
-  const [currentCoins, setCurrentCoins] = useState([]);
+  const [tradeHistoryCoins, setTradeHistoryCoins] = useState([]);
   const [predictCoins, setPredictCoins] = useState([]);
+  const [onPredict, setOnPredict] = useState();
+  const [errorPercentage, setErrorPercentage] = useState([]);
+  const [accuracy, setAccuracy] = useState(0);
+  const [errorSum, setErrorSum] = useState(0);
 
-  let socket;
 
   const clear = () => {
+    setOnPredict(false);
     setHistoryCoins([...historyCoins.slice(0, 100)]);
-    setCurrentCoins([]);
+    setTradeHistoryCoins([...tradeHistoryCoins.slice(0, 100)]);
     setPredictCoins([]);
+    setErrorPercentage([]);
+    setAccuracy(0);
+    setErrorSum(0);
   };
 
   const predict = () => {
     try {
+      setOnPredict(true);
+      let socket;
       if (socket) {
         socket.close();
       }
@@ -30,7 +40,7 @@ const Charts = ({ chartNumber, targetNumber }) => {
       };
       socket.onmessage = (msg) => {
         const data = JSON.parse(msg.data);
-        const currentData = {
+        const tradeHistoryData = {
           x: new Date(data[0].candleDateTimeKst),
           y: parseFloat(data[0].tradePrice),
         };
@@ -38,8 +48,17 @@ const Charts = ({ chartNumber, targetNumber }) => {
           x: new Date(data[1].dateTime),
           y: Math.round(data[1].price),
         };
-        setCurrentCoins((prev) => [...prev, currentData]);
+        const error = {
+          x: new Date(data[0].candleDateTimeKst),
+          y: (
+            ((tradeHistoryData.y - predictData.y) / tradeHistoryData.y) *
+            100
+          ).toFixed(6),
+        };
+        setTradeHistoryCoins((prev) => [...prev, tradeHistoryData]);
         setPredictCoins((prev) => [...prev, predictData]);
+        setErrorPercentage((prev) => [...prev, error]);
+        setErrorSum((prev) => prev + (1 - Math.abs(error.y)) * 100);
       };
     } catch (error) {
       console.log(error);
@@ -53,51 +72,71 @@ const Charts = ({ chartNumber, targetNumber }) => {
         x: new Date(item.candleDateTimeKst),
         y: [item.openingPrice, item.highPrice, item.lowPrice, item.tradePrice],
       }));
-      setHistoryCoins([...historyCoins, ...historyData]);
+      const tradeHistoryData = historyResponse.data.data.list.map((item) => ({
+        x: new Date(item.candleDateTimeKst),
+        y: item.tradePrice,
+      }));
+      setHistoryCoins(historyData);
+      setTradeHistoryCoins(tradeHistoryData);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
+    setOnPredict(false);
     getHistoryCoins();
   }, []);
 
   useEffect(() => {
-    clear()
-  }, [number, tNumber]);
+    clear();
+  }, []);
 
+  useEffect(() => {
+    errorPercentage.length !== 0 &&
+      setAccuracy((errorSum / errorPercentage.length).toFixed(2));
+  }, [errorSum])
   return (
-    <div>
+    <>
+    
+     <div className="">
       <button
-        className="absolute z-20 flex items-center right-20 mr-44 text-white
+        className="absolute z-10 flex items-center right-20 mr-44 text-white
         bg-[#1261c4] hover:bg-red-300 rounded border-spacing-2 font-semibold"
         onClick={() => clear()}
       >
         초기화
       </button>
       <button
-        className="absolute z-20 flex items-center right-0 mr-44 text-white
+        className="absolute z-10 flex items-center right-0 mr-44 text-white
         bg-[#0c3887] hover:bg-red-300 rounded border-spacing-2 font-semibold"
         onClick={() => predict()}
       >
         예측 시작
       </button>
-      <MainChart
-        cNumber={chartNumber}
-        hCoins={historyCoins}
-        cCoins={currentCoins}
-        pCoins={predictCoins}
-      />
       <div className="flex flex-row">
         <div className="basis-1/4">
-          <IndicatorChart />
+        <Listbar/>
+          <AccuracyChart acc={accuracy} />
         </div>
         <div className="basis-3/4">
-          <IndicatorChart2 cCoins={currentCoins} pCoins={predictCoins} />
+      {!onPredict ? (
+        <MainCandleChart hCoins={historyCoins} />
+      ) : (
+        <MainLineChart hCoins={tradeHistoryCoins} pCoins={predictCoins} />
+      )}  
+      </div>
+        </div>
+     
+        <div className="basis-full">
+          <PredictChart
+            hCoins={tradeHistoryCoins.slice(100)}
+            pCoins={predictCoins}
+          />
+          <ErrorChart ePercentage={errorPercentage} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

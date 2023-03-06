@@ -1,51 +1,42 @@
 import React, { useState, useEffect } from "react";
 import ApexChart from "react-apexcharts";
 
-const IndicatorChart2 = ({ cCoins, pCoins }) => {
-  const currentCoins = cCoins;
+const PredictChart = ({ hCoins, pCoins }) => {
+  const historyCoins = hCoins;
   const predictCoins = pCoins;
 
   const [options, setOptions] = useState({
+    title: {
+      text: "비트코인 예측차트",
+      align: "Center",
+    },
     stroke: {
-      width: [4, 4],
+      width: [2, 2],
       curve: "straight",
     },
     xaxis: {
       type: "datetime",
-      tickAmount: 10,
       labels: {
         datetimeUTC: false,
         format: "yyyy-MM-dd HH:mm",
       },
     },
     tooltip: {
+      enabled: true,
       x: {
-        show: true,
         format: "MM-dd HH:mm",
-        formatter: undefined,
       },
     },
   });
 
-  const [series, setSeries] = useState([
-    {
-      name: "current",
-      type: "line",
-      data: [],
-    },
-    {
-      name: "predict",
-      type: "line",
-      data: [],
-    },
-  ]);
+  const [series, setSeries] = useState([]);
 
   useEffect(() => {
     setSeries([
       {
         name: "current",
         type: "line",
-        data: currentCoins,
+        data: historyCoins,
       },
       {
         name: "predict",
@@ -53,8 +44,8 @@ const IndicatorChart2 = ({ cCoins, pCoins }) => {
         data: predictCoins,
       },
     ]);
-  }, [currentCoins, predictCoins]);
+  }, [historyCoins, predictCoins]);
 
-  return <ApexChart options={options} series={series} height={250} />;
+  return <ApexChart options={options} series={series} height={300} />;
 };
-export default IndicatorChart2;
+export default PredictChart;

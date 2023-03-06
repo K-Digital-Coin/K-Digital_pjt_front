@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { useUpbitWebSocket } from "use-upbit-api";
@@ -7,7 +7,6 @@ import {
   selectedCoinInfoState,
   selectedCoinState,
 } from "./atom";
-
 
 const convertMillonWon = (value) => {
   const MILLION = 1000000;
@@ -94,6 +93,7 @@ const CoinBoxName = styled.div`
 
 const CoinBoxPrice = styled.div`
   font-weight: 600;
+  border: ${(props) => props.changeType ? "solid 1px red" : "none"};
   color: ${(props) => {
     switch (props.changeType) {
       case "RISE":
@@ -109,6 +109,7 @@ const CoinBoxPrice = styled.div`
 `;
 
 const CoinBoxChange = styled.div`
+  border: ${(props) => props.changeType ? "solid 1px red" : "none"};
   color: ${(props) => {
     switch (props.changeType) {
       case "RISE":
@@ -126,14 +127,14 @@ const CoinBoxChangeRate = styled.div``;
 const CoinBoxChangePrice = styled.div``;
 const CoinBoxVolume = styled.div`
   font-size: 11px;
-  padding: 15px;
   div:nth-child(2) {
     color: grey;
   }
 `;
 
-
 function CoinSelector() {
+
+
   const marketCodes = useRecoilValue(marketCodesState);
   const [selectedCoin, setSelectedCoin] = useRecoilState(selectedCoinState);
   const webSocketOptions = { throttle_time: 400, max_length_queue: 100 };
@@ -145,20 +146,15 @@ function CoinSelector() {
   const [selectedCoinInfo, setSelectedCoinInfo] = useRecoilState(
     selectedCoinInfoState
   );
-  const [borderVisible, setBorderVisible] = useState(false); // 변경
 
   useEffect(() => {
     if (socketData) {
       const targetData = socketData.filter(
-        (data) => data.code === selectedCoin[0].market
+        (data) => data.code == selectedCoin[0].market
       );
       setSelectedCoinInfo(...targetData);
-      setBorderVisible(true); 
-      setTimeout(() => {
-        setBorderVisible(false); 
-      }, 1000);
     }
-  }, [selectedCoin, socketData, borderVisible]);
+  }, [selectedCoin, socketData]);
 
   const clickCoinHandler = (evt) => {
     const currentTarget = marketCodes.filter(
@@ -205,7 +201,6 @@ function CoinSelector() {
                   <CoinBoxPrice changeType={data.change}>
                     {data.trade_price.toLocaleString("ko-KR")}
                   </CoinBoxPrice>
-                  <div className={`${borderVisible === true ? "border-b-red-500" : null}`}>
                   <CoinBoxChange changeType={data.change}>
                     <CoinBoxChangeRate>
                       {data.signed_change_rate > 0 ? "+" : null}
@@ -215,7 +210,6 @@ function CoinSelector() {
                       {data.signed_change_price.toLocaleString("ko-KR")}
                     </CoinBoxChangePrice>
                   </CoinBoxChange>
-                  </div>
                   <CoinBoxVolume>
                     <div>
                       {Math.ceil(

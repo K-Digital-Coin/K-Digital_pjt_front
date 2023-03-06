@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
 
-const IndicatorChart = ({indiNumber}) => {
+const AccuracyChart = ({ acc }) => {
+  const accuracy = acc;
   const [options, setOptions] = useState({
-    // colors: ["#20E647"],
     plotOptions: {
       radialBar: {
         hollow: {
           margin: 15,
           size: "70%",
         },
-        fill : {
-          type : 'gradient'
+        fill: {
+          type: "gradient",
         },
         dataLabels: {
           showOn: "always",
@@ -29,17 +29,21 @@ const IndicatorChart = ({indiNumber}) => {
         },
       },
     },
-   
+
     stroke: {
       lineCap: "round",
     },
     labels: ["Accuracy"],
   });
 
-  const [series, setSeries] = useState([80]);
+  const [series, setSeries] = useState([]);
+
+  useEffect(() => {
+    setSeries([accuracy]);
+  }, [accuracy]);
 
   return (
-    <div className="flex">
+    <div className="flex mt-12">
       <ApexChart
         options={options}
         series={series}
@@ -50,4 +54,4 @@ const IndicatorChart = ({indiNumber}) => {
   );
 };
 
-export default IndicatorChart;
+export default AccuracyChart;
