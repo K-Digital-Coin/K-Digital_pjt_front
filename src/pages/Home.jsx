@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Content from '../components/nav/Content';
-import { useRef } from 'react';
 
 
 const Home = () => {
 
   const navigate = useNavigate();
- 
+  const [modal, setModal] = useState(false)
+
+  const modalHandler = ()=>{
+    setModal(!modal)
+  }
+
   return (
-    <div className="bg-black ">
+    <div className="bg-black h-screen">
       <div className=''>
         <div className='flex justify-center space-x-9'>
-        <button
+        <button onClick={modalHandler}
         >서비스</button>
         <button
         >예측</button>
@@ -44,7 +48,7 @@ const Home = () => {
           className="w-max h-auto"
         />
       </div>
-      <Content/>
+      {modal ? <Content/> : null}
     </div>
   );
 };

@@ -134,39 +134,50 @@ const CoinBoxVolume = styled.div`
 `;
 
 
+
 function CoinSelector() {
+  // useRecoilValue 함수를 이용하여 marketCodesState의 상태를 가져옴
   const marketCodes = useRecoilValue(marketCodesState);
+  // useRecoilState 함수를 이용하여 selectedCoinState 상태와 setSelectedCoin 함수를 가져옴
   const [selectedCoin, setSelectedCoin] = useRecoilState(selectedCoinState);
+  // WebSocket을 사용하는데 필요한 옵션들을 정의함
   const webSocketOptions = { throttle_time: 400, max_length_queue: 100 };
+  // useUpbitWebSocket 커스텀 훅을 이용하여 WebSocket을 생성함
   const { socket, isConnected, socketData } = useUpbitWebSocket(
     marketCodes,
     "ticker",
     webSocketOptions
   );
+  // useRecoilState 함수를 이용하여 selectedCoinInfoState 상태와 setSelectedCoinInfo 함수를 가져옴
   const [selectedCoinInfo, setSelectedCoinInfo] = useRecoilState(
     selectedCoinInfoState
   );
-  const [borderVisible, setBorderVisible] = useState(false); 
+  // useState 함수를 이용하여 borderVisible 상태와 setBorderVisible 함수를 정의함
+  const [borderVisible, setBorderVisible] = useState(false);
 
+  // useEffect 함수를 이용하여 selectedCoin 또는 socketData 상태가 변경될 때마다 동작하는 콜백함수를 정의함
   useEffect(() => {
+    // socketData가 존재하면 선택된 코인 데이터를 찾아서 선택된 코인 정보 상태에 저장함
     if (socketData) {
       const targetData = socketData.filter(
         (data) => data.code === selectedCoin[0].market
       );
       setSelectedCoinInfo(...targetData);
-      setBorderVisible(true); 
+      setBorderVisible(true);
       setTimeout(() => {
-        setBorderVisible(false); 
+        setBorderVisible(false);
       }, 1000);
     }
   }, [selectedCoin, socketData]);
 
   const clickCoinHandler = (evt) => {
+    // 현재 클릭된 코인의 코드 데이터를 marketCodes에서 찾아서 선택된 코인 상태에 저장함
     const currentTarget = marketCodes.filter(
       (code) => code.market === evt.currentTarget.id
     );
     setSelectedCoin(currentTarget);
   };
+
 
   return (    
     <div className="flex">
@@ -236,5 +247,3 @@ function CoinSelector() {
 }
 
 export default memo(CoinSelector);
-
-{/* <div className={`${borderVisible ? "border-b-red-500" : null}`}> */}
