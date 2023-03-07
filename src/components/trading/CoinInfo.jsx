@@ -41,7 +41,7 @@ const TradePriceInfoArea = styled.div`
       case "RISE":
         return "#EF1C1C";
       case "EVEN":
-        return "#000000";
+        return "#FFFFFF";
       case "FALL":
         return "#1261C4";
       default:

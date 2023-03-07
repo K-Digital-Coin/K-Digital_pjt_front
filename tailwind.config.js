@@ -22,6 +22,9 @@ module.exports = {
       animation : {
         'spin-slow' : 'spin 9s linear infinite',
         'spin-delay' : 'spin 9s linear infinite -4.5s'
+      },
+      backgroundImage : {
+        'bg1' : 'url("https://c.wallhere.com/photos/c1/2b/5000x3000_px_Bitcoin_money-1210272.jpg!d")'
       }
     },
   },

@@ -164,9 +164,6 @@ function CoinSelector() {
       );
       setSelectedCoinInfo(...targetData);
       setBorderVisible(true);
-      setTimeout(() => {
-        setBorderVisible(false);
-      }, 1000);
     }
   }, [selectedCoin, socketData]);
 

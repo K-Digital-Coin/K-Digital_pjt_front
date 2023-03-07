@@ -26,7 +26,7 @@ const Navbar = () => {
     <>
       <div className='flex text-[#BCC0C4] pb-2 border-b-2 border-[#232530] justify-between z-2'>
         <div className='flex'>
-        <img src={process.env.PUBLIC_URL + '/img/logo3.gif'} alt='로고사진대체 예정' className='w-24 z-1' onClick={()=>{navigate('/')}}/>
+        <img src={process.env.PUBLIC_URL + '/img/logo3.gif'} alt='로고사진대체 예정' className='w-24 z-1 h-16' onClick={()=>{navigate('/')}}/>
         <p className='flex items-center justify-center text-2xl -ml-2'>Predict Bit</p>
         </div>
         { getUserInfo ? 

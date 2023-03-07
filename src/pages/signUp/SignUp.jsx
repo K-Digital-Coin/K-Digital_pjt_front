@@ -59,7 +59,7 @@ const SignUp = () => {
                   changeHandler(e.currentTarget.checked);
                 }}
               />
-              <label> (필수) Predict Bit 회원 개인정보 수집 및 이용동의</label>
+              <label> (선택) Predict Bit 회원 개인정보 수집 및 이용동의</label>
               <a
                 onClick={(e) => {
                   e.preventDefault();
