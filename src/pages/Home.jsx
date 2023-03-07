@@ -1,16 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import Content from '../components/nav/Content';
+import { useRef } from 'react';
 
 
 const Home = () => {
 
-
   const navigate = useNavigate();
-
+ 
   return (
-    <div className="bg-black h-screen">
-      <div>
-        <h2 className="flex items-center justify-center mt-32 text-3xl">
+    <div className="bg-black ">
+      <div className=''>
+        <div className='flex justify-center space-x-9'>
+        <button
+        >서비스</button>
+        <button
+        >예측</button>
+        </div>
+        <h2 className="flex items-center justify-center mt-10 text-3xl">
           비트코인 실시간 시세 예측 서비스
         </h2>
         <p className="flex flex-col items-center justify-center mt-24 text-gray-400">
@@ -37,6 +44,7 @@ const Home = () => {
           className="w-max h-auto"
         />
       </div>
+      <Content/>
     </div>
   );
 };

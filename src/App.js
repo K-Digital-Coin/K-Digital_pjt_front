@@ -12,7 +12,7 @@ import { RecoilRoot } from "recoil";
 
 function App() {
   return (
-            <div className="bg-black text-white">
+            <div className="bg-black max-h-screen text-white">
               <Navbar />
               <Routes> 
                 <Route path="/" element={<Home />} />

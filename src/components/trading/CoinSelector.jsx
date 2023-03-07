@@ -18,7 +18,7 @@ const convertMillonWon = (value) => {
 const CoinListBox = styled.div`
   width: 100%;
   min-width: 400px;
-  height: 1100px;
+  height: 1300px;
   margin: 5px;
   color: white;
   background-color: black;
@@ -51,8 +51,8 @@ const CoinBox = styled.div`
   grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
   border-bottom: 0.5px solid lightgrey;
   font-size: 13px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 2px;
+  padding-right: 2px;
   cursor: pointer;
   background-color: ${(props) => (props.selected ? "grey" : "inherit")};
   :hover {
@@ -94,6 +94,7 @@ const CoinBoxName = styled.div`
 
 const CoinBoxPrice = styled.div`
   font-weight: 600;
+
   color: ${(props) => {
     switch (props.changeType) {
       case "RISE":
@@ -171,7 +172,7 @@ function CoinSelector() {
     <div className="flex">
       <CoinListBox>
         <CoinBoxHeader>
-          <div>코인</div>
+          <div className="pr-10">코인</div>
           <div>현재가</div>
           <div>전일대비</div>
           <div>거래대금</div>
@@ -202,17 +203,21 @@ function CoinSelector() {
                     </div>
                   </CoinBoxName>
                   <CoinBoxPrice changeType={data.change}>
+                    <div className="pr-10">
                     {data.trade_price.toLocaleString("ko-KR")}
+                    </div>
                   </CoinBoxPrice>
+                      <div className="pr-6">
                   <CoinBoxChange changeType={data.change}>
                     <CoinBoxChangeRate>
                       {data.signed_change_rate > 0 ? "+" : null}
-                      {(data.signed_change_rate * 100).toFixed(2)}%
+                      {(data.signed_change_rate * 100).toFixed(2)}
                     </CoinBoxChangeRate>
                     <CoinBoxChangePrice>
                       {data.signed_change_price.toLocaleString("ko-KR")}
                     </CoinBoxChangePrice>
                       </CoinBoxChange>
+                    </div>
                   <CoinBoxVolume>
                     <div>
                       {Math.ceil(

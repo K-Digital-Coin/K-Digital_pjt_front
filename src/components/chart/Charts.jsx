@@ -97,27 +97,27 @@ const Charts = () => {
   }, [errorSum]);
   return (
     <>
-      <div className="flex-wrap">
-        <button
-          className="absolute z-10 flex items-center right-20 mr-44 text-white
-        bg-[#1261c4] hover:bg-red-300 rounded border-spacing-2 font-semibold"
-          onClick={() => clear()}
-        >
-          초기화
-        </button>
-        <button
-          className="absolute z-10 flex items-center right-0 mr-44 text-white
-        bg-[#0c3887] hover:bg-red-300 rounded border-spacing-2 font-semibold"
-          onClick={() => predict()}
-        >
-          예측 시작
-        </button>
+      <div className="">
         <div className="flex flex-row">
-          <div className="basis-1/5">
+          <div className="basis-1/5 mt-6">
             <ListBar />
             <AccuracyChart acc={accuracy} />
           </div>
           <div className="basis-4/5">
+              <button
+                className="relative z-10 items-center left-3/4 text-white
+        bg-[#1261c4] hover:bg-red-300 rounded border-spacing-2 font-semibold"
+                onClick={() => clear()}
+              >
+                초기화
+              </button>
+              <button
+                className="relative z-10  items-center left-3/4 mr-44 text-white
+        bg-[#0c3887] hover:bg-red-300 rounded border-spacing-2 font-semibold"
+                onClick={() => predict()}
+              >
+                예측 시작
+              </button>
             {!onPredict ? (
               <MainCandleChart hCoins={historyCoins} />
             ) : (
@@ -126,14 +126,14 @@ const Charts = () => {
           </div>
         </div>
 
-        <div className="basis-full">
+        <div className="basis-full ">
           <PredictChart
             hCoins={tradeHistoryCoins.slice(100)}
             pCoins={predictCoins}
           />
+          </div>
           <ErrorChart ePercentage={errorPercentage} />
         </div>
-      </div>
     </>
   );
 };
