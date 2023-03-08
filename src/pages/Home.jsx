@@ -1,20 +1,27 @@
-import { motion } from "framer-motion";
-import styles from "../styles";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { slideIn, staggerContainer, textVariant } from "../utils/motion";
 import Content from "../components/nav/Content";
 import { useNavigate } from "react-router";
 
 const Home = () => {
   const navigate = useNavigate();
+  const {scrollYProgress} = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness : 100,
+    damping : 40,
+    restDelta : 0.001
+  })
+
   return (
     <>
+    <motion.div className="fixed bg-purple-700 origin-left h-2 min-w-full rounded-3xl" style={{ scaleX : scrollYProgress }} />
       <section className="mt-36 h-full flex justify-center items-center">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="show"
           viewport={{ once: false, amount: 0.25 }}
-          className={`${styles.innerWidth} mx-auto flex flex-col`}
+          className="mx-auto flex flex-col"
         >
           <div className="flex justify-center items-center flex-col relative z-10">
             <h1 className="text-5xl">비트코인 실시간 시세 예측 서비스</h1>

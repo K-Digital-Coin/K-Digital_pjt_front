@@ -32,8 +32,8 @@ const Content = () => {
         src={process.env.PUBLIC_URL + '/img/banner2.png'} alt="사진1"
         className="w-4/6 h-auto"/>
         <div className="ml-12">
-        <p className="p-4 text-2xl"> 단 세번의 탭으로 작동하는 간편함</p>
-        <p className="ml-6">원하는 코인을 선택하면 실시간 코인정보를 보여줍니다</p>
+        <p className="p-4 text-2xl">예측시세와 분석을 동시에 볼수있는 다양성</p>
+        <p className="ml-6">현재 시세와 예측시세를 볼수있으며 정확도, 오차까지 보여줍니다 </p>
         </div>
     </div>
     </div>
