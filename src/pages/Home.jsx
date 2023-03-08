@@ -2,8 +2,12 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { slideIn, staggerContainer, textVariant } from "../utils/motion";
 import Content from "../components/nav/Content";
 import { useNavigate } from "react-router";
-
+import { useEffect, useState } from "react";
+import { getUser } from "../index";
 const Home = () => {
+
+  
+  const [getUserInfo , setGetUserInfo] = useState()
   const navigate = useNavigate();
   const {scrollYProgress} = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -11,6 +15,11 @@ const Home = () => {
     damping : 40,
     restDelta : 0.001
   })
+
+
+  useEffect(()=>{
+    setGetUserInfo(getUser())
+  },[getUserInfo])
 
   return (
     <>

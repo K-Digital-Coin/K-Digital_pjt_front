@@ -79,6 +79,17 @@ const SignUpInput = () => {
             setPassword(e.target.value);
           }}
         />
+      </div>
+      <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
+        <input
+          type="password"
+          id="password"
+          placeholder="비밀번호 한번더 입력하세요"
+          className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
       
       </div>
       <PasswordStrengthBar password={password}/>

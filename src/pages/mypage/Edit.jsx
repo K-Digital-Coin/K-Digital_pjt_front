@@ -29,7 +29,7 @@ const Edit = () => {
               회원정보 수정
             </h2>
             <span className="flex space-x-2">           
-              <label> <span className="text-red-600">*</span> 표시는 필수입력 항목이오니 반드시 입력부탁드립니다</label>            
+              {/* <label> <span className="text-red-600">*</span> 표시는 필수입력 항목이오니 반드시 입력부탁드립니다</label>             */}
             </span>
             <EditInput/>
           </div>

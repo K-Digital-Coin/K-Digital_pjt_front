@@ -58,14 +58,15 @@ const EditInput = () => {
   return (
     <>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
-        <p> 아이디 <span className="text-red-600">*</span> : {getUserInfo}</p>
+        <p  className="text-red-600"> 아이디 <span className="text-red-600">*</span> : {getUserInfo}</p>
       </div>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
+        <p className="">닉네임</p>
         <input
           type="text"
+          defaultValue={getUserName}
           id="text"
-          autoFocus
-          placeholder={"변경할 닉네임 입력하세요 현재 => " + `${getUserName}` }
+          placeholder="변경할 닉네임 입력하세요 현재"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e) => {
             setnickname(e.target.value);
@@ -73,11 +74,13 @@ const EditInput = () => {
         />
       </div>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
+        <p>이메일</p>
         <input
           type="email"
+          defaultValue={getUserEmail}
           id="email"
           autoFocus
-          placeholder={"변경할 이메일 입력 현재 => " + `${getUserEmail}` }
+          placeholder="변경할 이메일 입력 현재" 
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e) => {
             setEmail(e.target.value);
@@ -87,7 +90,7 @@ const EditInput = () => {
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
         <input
           type="password"
-          id="password"
+          id="password1"
           placeholder="비밀번호 입력하세요"
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e) => {
@@ -95,7 +98,17 @@ const EditInput = () => {
           }}
         />
       </div>
-    
+      <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
+        <input
+          type="password"
+          id="password2"
+          placeholder="비밀번호 한번더입력하세요"
+          className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+      </div>
       <button
         className="bg-blue-400 w-full rounded hover:bg-blue-500 hover:scale-105 py-2 font-semibold"
         onClick={() => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import client from "../../config/axiosConfig";
-import {useNavigate } from "react-router";
+import {json, useNavigate } from "react-router";
 
 const Delete = () => {
 
@@ -11,8 +11,9 @@ const Delete = () => {
 const clickDelete = async () => {
   try {
     const result = await client.delete("/api/member", {
-    password : password,
-
+      data: {
+    password : password
+  }
     });
     result.data.code === 200 && successDelete();
   } catch (error) {

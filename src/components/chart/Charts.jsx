@@ -59,7 +59,7 @@ const Charts = () => {
         setTradeHistoryCoins((prev) => [...prev, tradeHistoryData]);
         setPredictCoins((prev) => [...prev, predictData]);
         setErrorPercentage((prev) => [...prev, error]);
-        setErrorSum((prev) => prev + (1 - Math.abs(error.y)) * 100);
+        setErrorSum((prev) => prev + (1 - Math.abs(error.y)));
       };
     } catch (error) {
       console.log(error);
