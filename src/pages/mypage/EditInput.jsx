@@ -1,44 +1,71 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import PasswordStrengthBar from 'react-password-strength-bar';
+import {getUserId} from '../../index'
+import { getUser } from "../../index";
+import { getUserEmails } from "../../index";
+import client from "../../config/axiosConfig";
 
-const SignUpInput = () => {
+
+const EditInput = () => {
   const navigate = useNavigate();
 
   const [nickname, setnickname] = useState("");
-  const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
-  const [email , setEmail] = useState("")
+  const [email, setEmail] = useState("")
+  const [getUserInfo , setGetUserInfo] = useState()
+  const [getUserName , setGetUserName] = useState()
+  const [getUserEmail, setGetUserEmail] = useState()
 
-  const successSignUp = () => {
-    alert("회원가입 성공");
+  useEffect(()=>{
+    setGetUserInfo(getUserId())
+    setGetUserName(getUser())
+    setGetUserEmail(getUserEmails())
+  },[getUserInfo, getUserName, getUserEmail])
+
+  console.log(getUserId())
+  
+  // const outLog = ()=>{
+  //   setOutUserInfo(localStorage.clear())
+  //   sessionStorage.clear()
+  //   alert('로그아웃 되었습니다')
+  //   navigate('/')
+  // } 
+  
+
+  const successEdit = () => {
+    alert("회원정보 수정완료");
+    localStorage.clear()
+    sessionStorage.clear()
     navigate("/logIn");
   };
 
-  // 회원가입 API
-  const clickSignUp = async () => {
+  // 회원수정 API
+  const clickEdit = async () => {
     try {
-      const result = await axios.post("/api/member/signUp", {
-        loginId: loginId,
+      const result = await client.put("/api/member", {
         nickname: nickname,
         password: password,
         email : email
       });
-      result.data.code === 200 && successSignUp();
+      result.data.code === 200 && successEdit();
     } catch (error) {
       alert(error.response.data.message);
     }
   };
 
+
   return (
     <>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
+        <p> 아이디 <span className="text-red-600">*</span> : {getUserInfo}</p>
+      </div>
+      <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
         <input
           type="text"
-          id="name"
+          id="text"
           autoFocus
-          placeholder="닉네임"
+          placeholder={"변경할 닉네임 입력하세요 현재 => " + `${getUserName}` }
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e) => {
             setnickname(e.target.value);
@@ -47,22 +74,10 @@ const SignUpInput = () => {
       </div>
       <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
         <input
-          type="text"
+          type="email"
           id="email"
           autoFocus
-          placeholder="아이디 입력하세요"
-          className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
-          onChange={(e) => {
-            setLoginId(e.target.value);
-          }}
-        />
-      </div>
-      <div className="relative flex flex-col w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-lime-500">
-        <input
-          type="text"
-          id="email"
-          autoFocus
-          placeholder="이메일 입력하세요"
+          placeholder={"변경할 이메일 입력 현재 => " + `${getUserEmail}` }
           className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
           onChange={(e) => {
             setEmail(e.target.value);
@@ -79,19 +94,23 @@ const SignUpInput = () => {
             setPassword(e.target.value);
           }}
         />
-      
       </div>
-      <PasswordStrengthBar password={password}/>
+    
       <button
-        className="bg-red-400 w-full rounded hover:bg-red-500 hover:scale-105 py-2 font-semibold"
+        className="bg-blue-400 w-full rounded hover:bg-blue-500 hover:scale-105 py-2 font-semibold"
         onClick={() => {
-          clickSignUp();
+          clickEdit();
         }}
       >
-        회원가입
+        회원정보 수정
       </button>
+     
+      <div className="space-y-2">
+      <h3 className="font-bold">회원정보변경 안내</h3>
+      <p className="ml-1">변경된 정보는 등록된 이메일주소로 안내됩니다</p>
+      </div>
     </>
   );
 };
 
-export default SignUpInput;
+export default EditInput;

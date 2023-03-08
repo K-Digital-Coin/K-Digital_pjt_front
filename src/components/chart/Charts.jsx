@@ -33,7 +33,9 @@ const Charts = () => {
       if (socket) {
         socket.close();
       }
-      socket = new WebSocket("ws://localhost:8080/coin");
+      // local용
+      // socket = new WebSocket("ws://localhost:8080/coin")
+      socket = new WebSocket("ws://10.125.121.170:8080/coin");
       socket.onopen = () => {
         console.log("WebSocket Open");
       };

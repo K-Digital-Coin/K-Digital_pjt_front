@@ -11,6 +11,15 @@ export const getUser = () => {
   const userInfo = sessionStorage.getItem("nickname");
   return userInfo;
 };
+export const getUserId = ()=>{
+  const userId = sessionStorage.getItem("loginId")
+  return userId
+}
+export const getUserEmails = ()=>{
+  const userEmail = sessionStorage.getItem("email")
+  return userEmail
+}
+
 root.render(
           <BrowserRouter>
             <App />

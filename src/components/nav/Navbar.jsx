@@ -32,8 +32,8 @@ const Navbar = () => {
         { getUserInfo ? 
         <div className='flex items-center space-x-4 mr-4'>
         <button className="border-1 rounded-md border-[#232530] bg-transparent uppercase hover:scale-110 hover:text-white hover:bg-blue-500 text-lg"
-                >
-          {getUserInfo} 회원 접속중
+               onClick={()=>{navigate('/myPage')}} >
+          {getUserInfo} 회원님 정보
           </button>
           {/* <button onClick={()=>{navigate('/trading')}}
           className="border-1 rounded-md border-[#232530] bg-transparent uppercase hover:scale-110 hover:text-white hover:bg-purple-500 text-xl">

@@ -4,8 +4,13 @@ import axios from 'axios';
  * 요청을 보내는 baseURL 설정
  */
 const client = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'http://10.125.121.170:3000/',
 });
+// local용
+// const client = axios.create({
+//   baseURL: 'http://localhost:8000/',
+// });
+
 
 /**
  * request를 보낼때 localStorage에 token 정보가 있다면 헤더에 토큰 정보를 저장하고

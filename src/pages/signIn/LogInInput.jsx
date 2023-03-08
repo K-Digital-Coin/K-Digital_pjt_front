@@ -29,6 +29,8 @@ const LogInInput = () => {
       .then((result) => {
         client.get("api/member/me").then((result) => {
           sessionStorage.setItem("nickname", result.data.data.nickname);
+          sessionStorage.setItem("loginId", result.data.data.loginId)
+          sessionStorage.setItem("email", result.data.data.email)
           alert(`${sessionStorage.getItem("nickname")}님 반갑습니다`);
 
           result.data.code === 200 && navigate("/trading");
