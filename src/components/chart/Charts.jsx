@@ -34,7 +34,7 @@ const Charts = () => {
         socket.close();
       }
       // local용
-      // socket = new WebSocket("ws://localhost:8080/coin")
+      // socket = new WebSocket("ws://localhost:8080/coin");
       socket = new WebSocket("ws://10.125.121.170:8080/coin");
       socket.onopen = () => {
         console.log("WebSocket Open");
@@ -59,7 +59,8 @@ const Charts = () => {
         setTradeHistoryCoins((prev) => [...prev, tradeHistoryData]);
         setPredictCoins((prev) => [...prev, predictData]);
         setErrorPercentage((prev) => [...prev, error]);
-        setErrorSum((prev) => prev + (1 - Math.abs(error.y)));
+        // console.log("error.y", error.y);
+        setErrorSum((prev) => prev + (100 - Math.abs(error.y)));
       };
     } catch (error) {
       console.log(error);
@@ -96,6 +97,8 @@ const Charts = () => {
   useEffect(() => {
     errorPercentage.length !== 0 &&
       setAccuracy((errorSum / errorPercentage.length).toFixed(2));
+    // console.log("errorSum", errorSum);
+    // console.log("accuracy", accuracy);
   }, [errorSum]);
   return (
     <>
